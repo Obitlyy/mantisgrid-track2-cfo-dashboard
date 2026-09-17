@@ -1,0 +1,2057 @@
+{
+  "$defs": {
+    "ActionEvaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "title": "Action",
+          "type": "string"
+        },
+        "action_id": {
+          "enum": [
+            "cpu_migration",
+            "idle_session_reclaim"
+          ],
+          "title": "Action Id",
+          "type": "string"
+        },
+        "candidate_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Candidate Gpu Hours"
+        },
+        "candidate_jobs": {
+          "title": "Candidate Jobs",
+          "type": "integer"
+        },
+        "effort": {
+          "enum": [
+            "low",
+            "medium",
+            "high"
+          ],
+          "title": "Effort",
+          "type": "string"
+        },
+        "evidence_origin": {
+          "enum": [
+            "real_telemetry",
+            "test_fixture"
+          ],
+          "title": "Evidence Origin",
+          "type": "string"
+        },
+        "excluded_jobs": {
+          "title": "Excluded Jobs",
+          "type": "integer"
+        },
+        "exclusion_counts": {
+          "items": {
+            "$ref": "#/$defs/ExclusionCount"
+          },
+          "title": "Exclusion Counts",
+          "type": "array"
+        },
+        "finding_count": {
+          "title": "Finding Count",
+          "type": "integer"
+        },
+        "marginal_recoverable_gpu_hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "marginal_reference_savings_usd": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "marginal_risk": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/RiskResult"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "owner_role": {
+          "title": "Owner Role",
+          "type": "string"
+        },
+        "pilot": {
+          "$ref": "#/$defs/Pilot"
+        },
+        "rank": {
+          "title": "Rank",
+          "type": "integer"
+        },
+        "standalone_recoverable_gpu_hours": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "standalone_reference_savings_usd": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "standalone_risk": {
+          "$ref": "#/$defs/RiskResult"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "action_id",
+        "title",
+        "owner_role",
+        "action",
+        "effort",
+        "rank",
+        "evidence_origin",
+        "candidate_jobs",
+        "candidate_gpu_hours",
+        "excluded_jobs",
+        "exclusion_counts",
+        "finding_count",
+        "standalone_recoverable_gpu_hours",
+        "standalone_reference_savings_usd",
+        "marginal_recoverable_gpu_hours",
+        "marginal_reference_savings_usd",
+        "standalone_risk",
+        "marginal_risk",
+        "pilot",
+        "warnings"
+      ],
+      "title": "ActionEvaluation",
+      "type": "object"
+    },
+    "Baseline": {
+      "additionalProperties": false,
+      "properties": {
+        "caveats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Caveats",
+          "type": "array"
+        },
+        "completed_computed_proxy_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Completed Computed Proxy Gpu Hours"
+        },
+        "computed_proxy_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Computed Proxy Gpu Hours"
+        },
+        "gpu_rows": {
+          "title": "Gpu Rows",
+          "type": "integer"
+        },
+        "jobs": {
+          "title": "Jobs",
+          "type": "integer"
+        },
+        "measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Measured Gpu Hours"
+        },
+        "non_completed_compute_share": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Non Completed Compute Share"
+        },
+        "outcomes": {
+          "items": {
+            "$ref": "#/$defs/OutcomeRow"
+          },
+          "title": "Outcomes",
+          "type": "array"
+        },
+        "reference_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Reference Cost Usd"
+        }
+      },
+      "required": [
+        "jobs",
+        "gpu_rows",
+        "measured_gpu_hours",
+        "computed_proxy_gpu_hours",
+        "completed_computed_proxy_gpu_hours",
+        "non_completed_compute_share",
+        "reference_cost_usd",
+        "outcomes",
+        "caveats"
+      ],
+      "title": "Baseline",
+      "type": "object"
+    },
+    "Bounds": {
+      "additionalProperties": false,
+      "properties": {
+        "high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "High"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Low"
+        },
+        "point": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Point"
+        }
+      },
+      "required": [
+        "low",
+        "point",
+        "high"
+      ],
+      "title": "Bounds",
+      "type": "object"
+    },
+    "ClaimsRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "evaluation_request": {
+          "$ref": "#/$defs/EvaluationRequest"
+        },
+        "team": {
+          "title": "Team",
+          "type": "string"
+        }
+      },
+      "required": [
+        "team",
+        "evaluation_request"
+      ],
+      "title": "ClaimsRequest",
+      "type": "object"
+    },
+    "ClaimsResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "claims": {
+          "additionalProperties": true,
+          "title": "Claims",
+          "type": "object"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      },
+      "required": [
+        "meta",
+        "claims"
+      ],
+      "title": "ClaimsResponse",
+      "type": "object"
+    },
+    "CpuMigrationParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "added_elapsed_hours_per_job": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "additional_cpu_core_hours_per_gpu_hour": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recoverable_fraction": {
+          "$ref": "#/$defs/Bounds"
+        },
+        "rerun_gpu_hours_per_candidate_gpu_hour": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "recoverable_fraction",
+        "additional_cpu_core_hours_per_gpu_hour",
+        "rerun_gpu_hours_per_candidate_gpu_hour",
+        "added_elapsed_hours_per_job"
+      ],
+      "title": "CpuMigrationParameters",
+      "type": "object"
+    },
+    "DecisionConfig": {
+      "additionalProperties": false,
+      "properties": {
+        "action_ids": {
+          "items": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "type": "string"
+          },
+          "title": "Action Ids",
+          "type": "array"
+        },
+        "allocation_order": {
+          "items": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "type": "string"
+          },
+          "title": "Allocation Order",
+          "type": "array"
+        },
+        "default_request": {
+          "$ref": "#/$defs/EvaluationRequest"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      },
+      "required": [
+        "meta",
+        "default_request",
+        "action_ids",
+        "allocation_order"
+      ],
+      "title": "DecisionConfig",
+      "type": "object"
+    },
+    "DecisionHealth": {
+      "additionalProperties": false,
+      "properties": {
+        "audit_status": {
+          "enum": [
+            "not_run",
+            "running",
+            "completed",
+            "partial",
+            "failed"
+          ],
+          "title": "Audit Status",
+          "type": "string"
+        },
+        "dataset_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Dataset Id"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "ready",
+            "not_ready"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "status",
+        "dataset_id",
+        "audit_status"
+      ],
+      "title": "DecisionHealth",
+      "type": "object"
+    },
+    "ErrorInfo": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "title": "Code",
+          "type": "string"
+        },
+        "details": {
+          "additionalProperties": true,
+          "title": "Details",
+          "type": "object"
+        },
+        "message": {
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "details"
+      ],
+      "title": "ErrorInfo",
+      "type": "object"
+    },
+    "ErrorResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "$ref": "#/$defs/ErrorInfo"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "error"
+      ],
+      "title": "ErrorResponse",
+      "type": "object"
+    },
+    "Estimate": {
+      "additionalProperties": false,
+      "properties": {
+        "basis": {
+          "title": "Basis",
+          "type": "string"
+        },
+        "confidence": {
+          "default": null,
+          "title": "Confidence",
+          "type": "null"
+        },
+        "high": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "High"
+        },
+        "interval_kind": {
+          "const": "scenario",
+          "default": "scenario",
+          "title": "Interval Kind",
+          "type": "string"
+        },
+        "low": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Low"
+        },
+        "point": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Point"
+        },
+        "unit": {
+          "enum": [
+            "gpu_hours",
+            "usd",
+            "cpu_core_hours",
+            "job_hours"
+          ],
+          "title": "Unit",
+          "type": "string"
+        }
+      },
+      "required": [
+        "low",
+        "point",
+        "high",
+        "unit",
+        "basis"
+      ],
+      "title": "Estimate",
+      "type": "object"
+    },
+    "Evaluation": {
+      "additionalProperties": false,
+      "properties": {
+        "actions": {
+          "items": {
+            "$ref": "#/$defs/ActionEvaluation"
+          },
+          "title": "Actions",
+          "type": "array"
+        },
+        "audit_status": {
+          "enum": [
+            "not_run",
+            "running",
+            "completed",
+            "partial",
+            "failed"
+          ],
+          "title": "Audit Status",
+          "type": "string"
+        },
+        "baseline": {
+          "$ref": "#/$defs/Baseline"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "portfolio": {
+          "$ref": "#/$defs/Portfolio"
+        },
+        "price_book_version": {
+          "title": "Price Book Version",
+          "type": "string"
+        },
+        "ranking_basis": {
+          "title": "Ranking Basis",
+          "type": "string"
+        },
+        "request": {
+          "$ref": "#/$defs/EvaluationRequest"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "meta",
+        "request",
+        "price_book_version",
+        "baseline",
+        "actions",
+        "portfolio",
+        "ranking_basis",
+        "audit_status",
+        "warnings"
+      ],
+      "title": "Evaluation",
+      "type": "object"
+    },
+    "EvaluationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "cpu_migration": {
+          "$ref": "#/$defs/CpuMigrationParameters"
+        },
+        "idle_session_reclaim": {
+          "$ref": "#/$defs/IdleSessionParameters"
+        },
+        "pricing": {
+          "$ref": "#/$defs/Pricing"
+        },
+        "selected_action_ids": {
+          "items": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "type": "string"
+          },
+          "title": "Selected Action Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "selected_action_ids",
+        "pricing",
+        "cpu_migration",
+        "idle_session_reclaim"
+      ],
+      "title": "EvaluationRequest",
+      "type": "object"
+    },
+    "EvidencePage": {
+      "additionalProperties": false,
+      "properties": {
+        "action_id": {
+          "enum": [
+            "cpu_migration",
+            "idle_session_reclaim"
+          ],
+          "title": "Action Id",
+          "type": "string"
+        },
+        "limit": {
+          "title": "Limit",
+          "type": "integer"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "next_offset": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Next Offset"
+        },
+        "offset": {
+          "title": "Offset",
+          "type": "integer"
+        },
+        "rows": {
+          "items": {
+            "$ref": "#/$defs/JobEvidenceRow"
+          },
+          "title": "Rows",
+          "type": "array"
+        },
+        "scope": {
+          "enum": [
+            "standalone",
+            "marginal"
+          ],
+          "title": "Scope",
+          "type": "string"
+        },
+        "total": {
+          "title": "Total",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "meta",
+        "action_id",
+        "scope",
+        "rows",
+        "total",
+        "offset",
+        "limit",
+        "next_offset"
+      ],
+      "title": "EvidencePage",
+      "type": "object"
+    },
+    "ExclusionCount": {
+      "additionalProperties": false,
+      "properties": {
+        "jobs": {
+          "title": "Jobs",
+          "type": "integer"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reason",
+        "jobs"
+      ],
+      "title": "ExclusionCount",
+      "type": "object"
+    },
+    "FindingDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "causal_status": {
+          "enum": [
+            "available",
+            "no_chain"
+          ],
+          "title": "Causal Status",
+          "type": "string"
+        },
+        "description": {
+          "title": "Description",
+          "type": "string"
+        },
+        "detector_id": {
+          "title": "Detector Id",
+          "type": "string"
+        },
+        "evidence_origin": {
+          "enum": [
+            "real_telemetry",
+            "synthetic_incident",
+            "test_fixture"
+          ],
+          "title": "Evidence Origin",
+          "type": "string"
+        },
+        "finding_id": {
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "impact_kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Impact Kind"
+        },
+        "impact_scope": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Impact Scope"
+        },
+        "job_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Job Ids",
+          "type": "array"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "method": {
+          "title": "Method",
+          "type": "string"
+        },
+        "node_names": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Node Names",
+          "type": "array"
+        },
+        "reported_impact_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Reported Impact Gpu Hours"
+        },
+        "resource_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Resource Ids",
+          "type": "array"
+        },
+        "root_cause_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Root Cause Ids",
+          "type": "array"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "meta",
+        "finding_id",
+        "detector_id",
+        "title",
+        "description",
+        "resource_ids",
+        "root_cause_ids",
+        "job_ids",
+        "node_names",
+        "evidence_origin",
+        "impact_scope",
+        "impact_kind",
+        "reported_impact_gpu_hours",
+        "causal_status",
+        "method"
+      ],
+      "title": "FindingDetail",
+      "type": "object"
+    },
+    "GpuDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "capped_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Capped Gpu Hours"
+        },
+        "gpu_id": {
+          "title": "Gpu Id",
+          "type": "integer"
+        },
+        "measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Measured Gpu Hours"
+        },
+        "node": {
+          "title": "Node",
+          "type": "string"
+        },
+        "quality_flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Quality Flags",
+          "type": "array"
+        },
+        "smutilization_pct_avg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Smutilization Pct Avg"
+        },
+        "smutilization_pct_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Smutilization Pct Max"
+        },
+        "totalexecutiontime_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Totalexecutiontime Sec"
+        }
+      },
+      "required": [
+        "node",
+        "gpu_id",
+        "totalexecutiontime_sec",
+        "smutilization_pct_avg",
+        "smutilization_pct_max",
+        "measured_gpu_hours",
+        "capped_gpu_hours",
+        "quality_flags"
+      ],
+      "title": "GpuDetail",
+      "type": "object"
+    },
+    "IdleSessionParameters": {
+      "additionalProperties": false,
+      "properties": {
+        "added_elapsed_hours_per_job": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "recoverable_fraction": {
+          "$ref": "#/$defs/Bounds"
+        },
+        "rerun_gpu_hours_per_candidate_gpu_hour": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Bounds"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "recoverable_fraction",
+        "rerun_gpu_hours_per_candidate_gpu_hour",
+        "added_elapsed_hours_per_job"
+      ],
+      "title": "IdleSessionParameters",
+      "type": "object"
+    },
+    "Investigation": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "evidence_origin": {
+          "enum": [
+            "real_telemetry",
+            "synthetic_incident",
+            "mixed"
+          ],
+          "title": "Evidence Origin",
+          "type": "string"
+        },
+        "finding_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "investigation_id": {
+          "const": "node_recommendation_audit",
+          "title": "Investigation Id",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "model_used": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Model Used"
+        },
+        "nodes": {
+          "items": {
+            "$ref": "#/$defs/NodeAudit"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "nominal_drain_gpu_hours_24h": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Nominal Drain Gpu Hours 24H"
+        },
+        "recommendation_id": {
+          "title": "Recommendation Id",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "not_run",
+            "running",
+            "completed",
+            "partial",
+            "failed"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "summary": {
+          "title": "Summary",
+          "type": "string"
+        },
+        "token_usage": {
+          "anyOf": [
+            {
+              "additionalProperties": {
+                "type": "integer"
+              },
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Token Usage"
+        },
+        "tool_calls": {
+          "items": {
+            "$ref": "#/$defs/ToolCallRecord"
+          },
+          "title": "Tool Calls",
+          "type": "array"
+        },
+        "verdict": {
+          "enum": [
+            "accept",
+            "revise",
+            "reject",
+            "cannot_determine"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "investigation_id",
+        "dataset_id",
+        "status",
+        "verdict",
+        "evidence_origin",
+        "recommendation_id",
+        "finding_ids",
+        "summary",
+        "limitations",
+        "nodes",
+        "nominal_drain_gpu_hours_24h",
+        "tool_calls",
+        "model_used",
+        "token_usage"
+      ],
+      "title": "Investigation",
+      "type": "object"
+    },
+    "InvestigationResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "investigation": {
+          "$ref": "#/$defs/Investigation"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        }
+      },
+      "required": [
+        "meta",
+        "investigation"
+      ],
+      "title": "InvestigationResponse",
+      "type": "object"
+    },
+    "JobDetail": {
+      "additionalProperties": false,
+      "properties": {
+        "array_job_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Array Job Id"
+        },
+        "attempts": {
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "finding_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "gpus": {
+          "items": {
+            "$ref": "#/$defs/GpuDetail"
+          },
+          "title": "Gpus",
+          "type": "array"
+        },
+        "hit_node_failure": {
+          "title": "Hit Node Failure",
+          "type": "boolean"
+        },
+        "job_id": {
+          "title": "Job Id",
+          "type": "string"
+        },
+        "job_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Job Type"
+        },
+        "measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Measured Gpu Hours"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "nodefail_exact": {
+          "title": "Nodefail Exact",
+          "type": "boolean"
+        },
+        "nodefail_nodes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Nodefail Nodes",
+          "type": "array"
+        },
+        "quality_flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Quality Flags",
+          "type": "array"
+        },
+        "sm_util_avg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sm Util Avg"
+        },
+        "sm_util_max": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Sm Util Max"
+        },
+        "state_name": {
+          "title": "State Name",
+          "type": "string"
+        },
+        "time_end_offset_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time End Offset Sec"
+        },
+        "time_start_offset_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time Start Offset Sec"
+        },
+        "time_submit_offset_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time Submit Offset Sec"
+        },
+        "user_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "User Id"
+        },
+        "walltime_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Walltime Sec"
+        }
+      },
+      "required": [
+        "meta",
+        "job_id",
+        "user_id",
+        "array_job_id",
+        "state_name",
+        "job_type",
+        "attempts",
+        "hit_node_failure",
+        "nodefail_nodes",
+        "nodefail_exact",
+        "time_submit_offset_sec",
+        "time_start_offset_sec",
+        "time_end_offset_sec",
+        "walltime_sec",
+        "measured_gpu_hours",
+        "sm_util_avg",
+        "sm_util_max",
+        "finding_ids",
+        "gpus",
+        "quality_flags"
+      ],
+      "title": "JobDetail",
+      "type": "object"
+    },
+    "JobEvidenceRow": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Candidate Gpu Hours"
+        },
+        "capped_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Capped Gpu Hours"
+        },
+        "contribution_gpu_hours": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "eligibility": {
+          "enum": [
+            "included",
+            "excluded",
+            "overlap_assigned_elsewhere"
+          ],
+          "title": "Eligibility",
+          "type": "string"
+        },
+        "finding_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "gpu_count": {
+          "title": "Gpu Count",
+          "type": "integer"
+        },
+        "job_id": {
+          "title": "Job Id",
+          "type": "string"
+        },
+        "measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Measured Gpu Hours"
+        },
+        "nodes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Nodes",
+          "type": "array"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "state_name": {
+          "title": "State Name",
+          "type": "string"
+        },
+        "user_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "User Id"
+        }
+      },
+      "required": [
+        "job_id",
+        "user_id",
+        "state_name",
+        "gpu_count",
+        "measured_gpu_hours",
+        "capped_gpu_hours",
+        "candidate_gpu_hours",
+        "contribution_gpu_hours",
+        "eligibility",
+        "reasons",
+        "finding_ids",
+        "nodes"
+      ],
+      "title": "JobEvidenceRow",
+      "type": "object"
+    },
+    "Meta": {
+      "additionalProperties": false,
+      "properties": {
+        "analysis_version": {
+          "const": "track2-decision-v1",
+          "default": "track2-decision-v1",
+          "title": "Analysis Version",
+          "type": "string"
+        },
+        "data_origin": {
+          "enum": [
+            "official_dataset",
+            "test_fixture"
+          ],
+          "title": "Data Origin",
+          "type": "string"
+        },
+        "dataset_id": {
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "evaluation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Evaluation Id"
+        },
+        "sample_window": {
+          "$ref": "#/$defs/SampleWindow"
+        },
+        "schema_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dataset_id",
+        "evaluation_id",
+        "data_origin",
+        "sample_window"
+      ],
+      "title": "Meta",
+      "type": "object"
+    },
+    "NodeAudit": {
+      "additionalProperties": false,
+      "properties": {
+        "cause": {
+          "enum": [
+            "hardware",
+            "user_code",
+            "workload_mix",
+            "cannot_determine"
+          ],
+          "title": "Cause",
+          "type": "string"
+        },
+        "finding_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "node_name": {
+          "title": "Node Name",
+          "type": "string"
+        },
+        "reasoning": {
+          "title": "Reasoning",
+          "type": "string"
+        },
+        "reported_findings": {
+          "title": "Reported Findings",
+          "type": "integer"
+        },
+        "resource_id": {
+          "title": "Resource Id",
+          "type": "string"
+        },
+        "returned_findings": {
+          "title": "Returned Findings",
+          "type": "integer"
+        },
+        "scope_description": {
+          "title": "Scope Description",
+          "type": "string"
+        },
+        "truncated": {
+          "title": "Truncated",
+          "type": "boolean"
+        },
+        "verdict": {
+          "enum": [
+            "inspect",
+            "no_drain",
+            "cannot_determine"
+          ],
+          "title": "Verdict",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_name",
+        "resource_id",
+        "cause",
+        "verdict",
+        "scope_description",
+        "finding_ids",
+        "reported_findings",
+        "returned_findings",
+        "truncated",
+        "reasoning"
+      ],
+      "title": "NodeAudit",
+      "type": "object"
+    },
+    "OutcomeRow": {
+      "additionalProperties": false,
+      "properties": {
+        "jobs": {
+          "title": "Jobs",
+          "type": "integer"
+        },
+        "measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Measured Gpu Hours"
+        },
+        "reference_cost_usd": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Reference Cost Usd"
+        },
+        "share_of_measured_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Share Of Measured Gpu Hours"
+        },
+        "state_name": {
+          "title": "State Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "state_name",
+        "jobs",
+        "measured_gpu_hours",
+        "share_of_measured_gpu_hours",
+        "reference_cost_usd"
+      ],
+      "title": "OutcomeRow",
+      "type": "object"
+    },
+    "Pilot": {
+      "additionalProperties": false,
+      "properties": {
+        "rollback_steps": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rollback Steps",
+          "type": "array"
+        },
+        "stop_conditions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stop Conditions",
+          "type": "array"
+        },
+        "success_metrics": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Success Metrics",
+          "type": "array"
+        }
+      },
+      "required": [
+        "success_metrics",
+        "stop_conditions",
+        "rollback_steps"
+      ],
+      "title": "Pilot",
+      "type": "object"
+    },
+    "Portfolio": {
+      "additionalProperties": false,
+      "properties": {
+        "allocation_order": {
+          "items": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "type": "string"
+          },
+          "title": "Allocation Order",
+          "type": "array"
+        },
+        "caveats": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Caveats",
+          "type": "array"
+        },
+        "overlap_jobs": {
+          "title": "Overlap Jobs",
+          "type": "integer"
+        },
+        "recoverable_gpu_hours": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "reference_savings_usd": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "risk": {
+          "$ref": "#/$defs/RiskResult"
+        },
+        "sample_capacity_gap_gpu_hours": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "sample_capacity_target_fraction": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sample Capacity Target Fraction"
+        },
+        "sample_capacity_target_gpu_hours": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Sample Capacity Target Gpu Hours"
+        },
+        "selected_action_ids": {
+          "items": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "type": "string"
+          },
+          "title": "Selected Action Ids",
+          "type": "array"
+        },
+        "unique_jobs": {
+          "title": "Unique Jobs",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "selected_action_ids",
+        "allocation_order",
+        "unique_jobs",
+        "overlap_jobs",
+        "recoverable_gpu_hours",
+        "reference_savings_usd",
+        "risk",
+        "sample_capacity_target_fraction",
+        "sample_capacity_target_gpu_hours",
+        "sample_capacity_gap_gpu_hours",
+        "caveats"
+      ],
+      "title": "Portfolio",
+      "type": "object"
+    },
+    "Pricing": {
+      "additionalProperties": false,
+      "properties": {
+        "usd_per_cpu_core_hour": {
+          "anyOf": [
+            {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "ge": 0,
+              "le": 1000000
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Usd Per Cpu Core Hour"
+        },
+        "usd_per_gpu_hour": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "ge": 0,
+          "le": 1000000,
+          "title": "Usd Per Gpu Hour"
+        }
+      },
+      "required": [
+        "usd_per_gpu_hour"
+      ],
+      "title": "Pricing",
+      "type": "object"
+    },
+    "RiskResult": {
+      "additionalProperties": false,
+      "properties": {
+        "added_job_hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "additional_cpu_core_hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "additional_cpu_cost_usd": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cash_savings_usd": {
+          "default": null,
+          "title": "Cash Savings Usd",
+          "type": "null"
+        },
+        "rerun_gpu_hours": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "rerun_reference_cost_usd": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Estimate"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "unknowns": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unknowns",
+          "type": "array"
+        }
+      },
+      "required": [
+        "rerun_gpu_hours",
+        "rerun_reference_cost_usd",
+        "additional_cpu_core_hours",
+        "additional_cpu_cost_usd",
+        "added_job_hours",
+        "unknowns"
+      ],
+      "title": "RiskResult",
+      "type": "object"
+    },
+    "SampleWindow": {
+      "additionalProperties": false,
+      "properties": {
+        "calendar_is_mapped": {
+          "const": true,
+          "default": true,
+          "title": "Calendar Is Mapped",
+          "type": "boolean"
+        },
+        "end_offset_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "End Offset Sec"
+        },
+        "epoch_offset_sec": {
+          "title": "Epoch Offset Sec",
+          "type": "integer"
+        },
+        "mapped_end_utc": {
+          "title": "Mapped End Utc",
+          "type": "string"
+        },
+        "mapped_start_utc": {
+          "title": "Mapped Start Utc",
+          "type": "string"
+        },
+        "start_offset_sec": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "integer"
+            }
+          ],
+          "title": "Start Offset Sec"
+        }
+      },
+      "required": [
+        "start_offset_sec",
+        "end_offset_sec",
+        "epoch_offset_sec",
+        "mapped_start_utc",
+        "mapped_end_utc"
+      ],
+      "title": "SampleWindow",
+      "type": "object"
+    },
+    "ToolCallRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "additionalProperties": true,
+          "title": "Arguments",
+          "type": "object"
+        },
+        "call_id": {
+          "title": "Call Id",
+          "type": "string"
+        },
+        "duration_ms": {
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Error"
+        },
+        "result": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Result"
+        },
+        "sequence": {
+          "title": "Sequence",
+          "type": "integer"
+        },
+        "started_at_utc": {
+          "title": "Started At Utc",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "success",
+            "error",
+            "timeout"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "tool_name": {
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "call_id",
+        "sequence",
+        "tool_name",
+        "arguments",
+        "started_at_utc",
+        "duration_ms",
+        "status",
+        "result",
+        "error"
+      ],
+      "title": "ToolCallRecord",
+      "type": "object"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Track 2 Decision Contracts"
+}

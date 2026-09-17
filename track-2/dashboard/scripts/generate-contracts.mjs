@@ -1,0 +1,10 @@
+import { compileFromFile } from 'json-schema-to-typescript';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
+const root = resolve(import.meta.dirname, '..');
+const schema = resolve(root, '..', 'contracts', 'decision.schema.json');
+const output = process.env.CONTRACTS_TS_OUTPUT || resolve(root, 'src', 'api', 'contracts.generated.ts');
+await mkdir(resolve(output, '..'), { recursive: true });
+let source = await compileFromFile(schema, { bannerComment: '// Generated from decision.schema.json. Do not edit.', unreachableDefinitions: true });
+if (!source.includes('export type ActionId')) source += "\nexport type ActionId = EvaluationRequest['selected_action_ids'][number];\n";
+await writeFile(output, source);

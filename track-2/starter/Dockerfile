@@ -1,4 +1,5 @@
 FROM python:3.12-slim
 WORKDIR /work
-RUN pip install --no-cache-dir jupyterlab pandas matplotlib requests pyarrow
+COPY requirements.lock.txt /tmp/requirements.lock.txt
+RUN pip install --no-cache-dir -r /tmp/requirements.lock.txt
 COPY starter/ /work/

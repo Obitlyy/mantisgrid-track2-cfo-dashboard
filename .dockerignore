@@ -1,0 +1,7 @@
+.git
+.env
+data
+out
+**/track-2-raw.zip
+**/node_modules
+**/dist

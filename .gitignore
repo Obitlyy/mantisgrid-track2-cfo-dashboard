@@ -13,3 +13,17 @@ __pycache__/
 .DS_Store
 claims.json
 out/
+.superpowers/
+
+/data/*
+!/data/README.md
+!/data/checksums.txt
+**/track-2-raw.zip
+.env
+node_modules/
+dist/
+track-2/dashboard/test-results/
+.pytest_cache/
+.coverage
+htmlcov/
+!/claims.json

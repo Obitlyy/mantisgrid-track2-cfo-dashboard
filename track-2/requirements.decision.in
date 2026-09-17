@@ -1,0 +1,2 @@
+-r requirements.lock.txt
+fastmcp==2.12.4

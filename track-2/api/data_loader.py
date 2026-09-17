@@ -5,6 +5,7 @@ aggregation happens here at cold start rather than per request. On Lambda this
 runs once per container, not once per invocation.
 """
 import json
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -12,7 +13,8 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
-PREP, SYN = ROOT / "data" / "prepped", ROOT / "data" / "synthetic"
+DATA_ROOT = Path(os.environ.get("MGAI_DATA_DIR", ROOT / "data")).expanduser().resolve()
+PREP, SYN = DATA_ROOT / "prepped", DATA_ROOT / "synthetic"
 
 V100_PER_NODE = 2
 SM_PROXY_CAVEAT = ("SM utilization is a proxy for useful work. A data-loader-bound "

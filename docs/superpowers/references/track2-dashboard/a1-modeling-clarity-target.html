@@ -1,0 +1,54 @@
+<style>
+  .clarity-board{display:grid;grid-template-columns:1.45fr .75fr;gap:18px;margin-top:22px}
+  .hero,.detail{background:#f3f4f4;border:1px solid #d4d7d8;border-radius:20px;overflow:hidden;box-shadow:0 18px 45px rgba(29,33,36,.11)}
+  .scene{position:relative;height:520px;overflow:hidden;background:linear-gradient(180deg,#fbfbfb,#eceeef 58%,#dfe1e2)}
+  .ceiling{position:absolute;top:-65px;left:-10%;right:-10%;height:170px;background:repeating-linear-gradient(90deg,#d8dcdd 0 2px,transparent 2px 110px),linear-gradient(#fff,#e8eaeb);transform:perspective(700px) rotateX(-48deg);border-bottom:1px solid #c9cccd}
+  .lamp{position:absolute;top:32px;width:180px;height:9px;border-radius:1px;background:#fff;box-shadow:0 3px 28px #fff}.lamp.a{left:17%}.lamp.b{right:17%}
+  .floor{position:absolute;left:-20%;right:-20%;bottom:-165px;height:410px;background:repeating-linear-gradient(90deg,transparent 0 87px,#c7cbcd 88px 90px),repeating-linear-gradient(0deg,transparent 0 87px,#c7cbcd 88px 90px),linear-gradient(#f0f1f1,#d7dadb);transform:perspective(520px) rotateX(65deg)}
+  .cabinet{position:absolute;left:74px;bottom:48px;width:238px;height:386px;border-radius:7px;background:linear-gradient(90deg,#111315 0,#2a2c2e 7%,#1a1c1e 50%,#2c2e30 93%,#0e1011 100%);border:2px solid #0e0f10;box-shadow:19px 28px 36px rgba(25,28,30,.32);padding:20px 17px 16px;box-sizing:border-box;transform:perspective(900px) rotateY(8deg)}
+  .cabinet:before{content:"";position:absolute;inset:10px;border:1px solid #474a4c;border-radius:3px;box-shadow:inset 0 0 0 2px #111}
+  .rail{position:absolute;top:22px;bottom:18px;width:5px;background:repeating-linear-gradient(0deg,#808487 0 2px,transparent 2px 9px);z-index:3}.rail.left{left:22px}.rail.right{right:22px}
+  .units{position:relative;z-index:2;display:flex;flex-direction:column;gap:6px;height:100%;padding:6px 13px;box-sizing:border-box}
+  .gpu{position:relative;flex:1;min-height:28px;border-radius:3px;background:linear-gradient(180deg,#d8dadb 0,#aeb2b5 45%,#888d90 48%,#c4c7c9 100%);border:1px solid #777c7f;box-shadow:inset 0 1px #f7f7f7,0 2px 4px rgba(0,0,0,.28)}
+  .gpu:before{content:"";position:absolute;left:9px;top:7px;bottom:7px;width:64px;background:radial-gradient(circle,#26292b 1px,transparent 1.5px);background-size:5px 5px;border:1px solid #85898b;border-radius:2px}
+  .gpu:after{content:"";position:absolute;right:11px;top:50%;width:25px;height:4px;background:#343739;border-radius:2px;transform:translateY(-50%);box-shadow:-36px 0 0 #505457}
+  .led{position:absolute;right:45px;top:50%;width:5px;height:5px;border-radius:50%;background:#5da775;box-shadow:0 0 6px #5da775;transform:translateY(-50%)}
+  .gpu.warn .led{background:#c88e32;box-shadow:0 0 7px #c88e32}.gpu.off{filter:brightness(.72)}
+  .label{position:absolute;left:13px;top:50%;font:700 6px/1 monospace;color:#333;transform:translateY(-50%)}
+  .cabinet-base{position:absolute;left:62px;bottom:31px;width:260px;height:22px;background:#151719;border-radius:2px;box-shadow:0 8px 10px #0004}.cabinet-base:before,.cabinet-base:after{content:"";position:absolute;bottom:-9px;width:18px;height:10px;background:#1b1d1f;border-radius:1px}.cabinet-base:before{left:16px}.cabinet-base:after{right:16px}
+  .callout{position:absolute;right:28px;top:84px;width:230px;padding:15px;background:#fafbfbf2;border:1px solid #c9ccce;border-radius:12px;box-shadow:0 18px 38px rgba(36,40,43,.16);font-size:10px;color:#656a6d}.callout:before{content:"";position:absolute;left:-176px;top:182px;width:176px;height:1px;background:#898e91}.callout:after{content:"";position:absolute;left:-181px;top:177px;width:9px;height:9px;background:#f1f2f2;border:2px solid #c88e32;border-radius:50%}.callout strong{display:block;font-size:14px;color:#202326;margin-bottom:7px}.money{font-size:25px;font-weight:850;color:#2d3032;margin:10px 0}.risk{margin-top:10px;padding-top:9px;border-top:1px solid #d6d9da;color:#914b4b}
+  .caption{padding:15px 18px;background:#fff;border-top:1px solid #d7d9da}.caption h3{margin:0 0 5px;font-size:15px}.caption p{margin:0;color:#6c7174;font-size:12px}
+  .detail{padding:18px;background:#fff}.detail h3{margin:0 0 14px;font-size:16px}.spec{display:grid;grid-template-columns:40px 1fr;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid #eceeef}.spec:last-child{border:0}.icon{width:38px;height:38px;border-radius:9px;background:#25282a;position:relative}.icon.steel{background:linear-gradient(135deg,#e0e2e3,#969b9e)}.icon.vent{background:radial-gradient(circle,#252729 1px,#b5b9bb 1.5px);background-size:6px 6px;border:1px solid #9da1a3}.icon.light{background:radial-gradient(circle,#fff,#eceeef 45%,#cfd3d5)}.icon.shadow{background:linear-gradient(135deg,#f0f1f1 45%,#6c727655)}.spec b{display:block;color:#282b2d;font-size:12px;margin-bottom:3px}.spec span{font-size:10px;color:#73787b;line-height:1.4}.quality{margin-top:15px;padding:12px;border-radius:9px;background:#f1f2f2;color:#555a5d;font-size:11px;line-height:1.5}
+  @media(max-width:900px){.clarity-board{grid-template-columns:1fr}.callout{right:12px;width:190px}.cabinet{left:30px}}
+</style>
+
+<h2>A1 · 建模清晰度目标</h2>
+<p class="subtitle">近景必须看得出“真实设备”，而不是一排发光方块。</p>
+
+<div class="clarity-board">
+  <div class="hero">
+    <div class="scene">
+      <div class="ceiling"></div><div class="lamp a"></div><div class="lamp b"></div><div class="floor"></div><div class="cabinet-base"></div>
+      <div class="cabinet"><div class="rail left"></div><div class="rail right"></div><div class="units">
+        <div class="gpu"><span class="label">GPU-01</span><i class="led"></i></div>
+        <div class="gpu"><span class="label">GPU-02</span><i class="led"></i></div>
+        <div class="gpu warn"><span class="label">GPU-03</span><i class="led"></i></div>
+        <div class="gpu warn"><span class="label">GPU-04</span><i class="led"></i></div>
+        <div class="gpu"><span class="label">GPU-05</span><i class="led"></i></div>
+        <div class="gpu off"><span class="label">GPU-06</span><i class="led"></i></div>
+        <div class="gpu"><span class="label">GPU-07</span><i class="led"></i></div>
+        <div class="gpu"><span class="label">GPU-08</span><i class="led"></i></div>
+      </div></div>
+      <div class="callout"><strong>Idle interactive sessions</strong>2 affected modules in this decision group<div class="money">$42k–$71k</div>Recoverable capacity scenario<div class="risk">Wrong-call scenario · $8k–$19k</div></div>
+    </div>
+    <div class="caption"><h3>清晰到模块级，而不是只清晰到机柜级</h3><p>近景能识别 U 位、模块边界、通风孔、导轨、把手、状态灯和设备标签。</p></div>
+  </div>
+  <div class="detail">
+    <h3>建模与渲染标准</h3>
+    <div class="spec"><i class="icon steel"></i><div><b>拉丝银 GPU 模块</b><span>金属粗糙度差异、倒角和独立前面板</span></div></div>
+    <div class="spec"><i class="icon vent"></i><div><b>可读的设备细节</b><span>散热孔、把手、导轨、U 位和小面积状态灯</span></div></div>
+    <div class="spec"><i class="icon light"></i><div><b>现实机房照明</b><span>大面积柔光、环境遮蔽，不使用霓虹雾效</span></div></div>
+    <div class="spec"><i class="icon shadow"></i><div><b>清晰轮廓与阴影</b><span>35–45° 视角、接触阴影、适度反射和抗锯齿</span></div></div>
+    <div class="quality">实现目标：React Three Fiber + PBR 材质；相同设备用 instancing；近景模型和远景 LOD 分离；高分屏保持清晰，低性能设备自动降低阴影质量。</div>
+  </div>
+</div>

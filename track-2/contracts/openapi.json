@@ -1,0 +1,3967 @@
+{
+  "components": {
+    "schemas": {
+      "ActionEvaluation": {
+        "additionalProperties": false,
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "action_id": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "title": "Action Id",
+            "type": "string"
+          },
+          "candidate_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Candidate Gpu Hours"
+          },
+          "candidate_jobs": {
+            "title": "Candidate Jobs",
+            "type": "integer"
+          },
+          "effort": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Effort",
+            "type": "string"
+          },
+          "evidence_origin": {
+            "enum": [
+              "real_telemetry",
+              "test_fixture"
+            ],
+            "title": "Evidence Origin",
+            "type": "string"
+          },
+          "excluded_jobs": {
+            "title": "Excluded Jobs",
+            "type": "integer"
+          },
+          "exclusion_counts": {
+            "items": {
+              "$ref": "#/components/schemas/ExclusionCount"
+            },
+            "title": "Exclusion Counts",
+            "type": "array"
+          },
+          "finding_count": {
+            "title": "Finding Count",
+            "type": "integer"
+          },
+          "marginal_recoverable_gpu_hours": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "marginal_reference_savings_usd": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "marginal_risk": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RiskResult"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "owner_role": {
+            "title": "Owner Role",
+            "type": "string"
+          },
+          "pilot": {
+            "$ref": "#/components/schemas/Pilot"
+          },
+          "rank": {
+            "title": "Rank",
+            "type": "integer"
+          },
+          "standalone_recoverable_gpu_hours": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "standalone_reference_savings_usd": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "standalone_risk": {
+            "$ref": "#/components/schemas/RiskResult"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "action_id",
+          "title",
+          "owner_role",
+          "action",
+          "effort",
+          "rank",
+          "evidence_origin",
+          "candidate_jobs",
+          "candidate_gpu_hours",
+          "excluded_jobs",
+          "exclusion_counts",
+          "finding_count",
+          "standalone_recoverable_gpu_hours",
+          "standalone_reference_savings_usd",
+          "marginal_recoverable_gpu_hours",
+          "marginal_reference_savings_usd",
+          "standalone_risk",
+          "marginal_risk",
+          "pilot",
+          "warnings"
+        ],
+        "title": "ActionEvaluation",
+        "type": "object"
+      },
+      "Baseline": {
+        "additionalProperties": false,
+        "properties": {
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Caveats",
+            "type": "array"
+          },
+          "completed_computed_proxy_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Completed Computed Proxy Gpu Hours"
+          },
+          "computed_proxy_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Computed Proxy Gpu Hours"
+          },
+          "gpu_rows": {
+            "title": "Gpu Rows",
+            "type": "integer"
+          },
+          "jobs": {
+            "title": "Jobs",
+            "type": "integer"
+          },
+          "measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Measured Gpu Hours"
+          },
+          "non_completed_compute_share": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Non Completed Compute Share"
+          },
+          "outcomes": {
+            "items": {
+              "$ref": "#/components/schemas/OutcomeRow"
+            },
+            "title": "Outcomes",
+            "type": "array"
+          },
+          "reference_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Reference Cost Usd"
+          }
+        },
+        "required": [
+          "jobs",
+          "gpu_rows",
+          "measured_gpu_hours",
+          "computed_proxy_gpu_hours",
+          "completed_computed_proxy_gpu_hours",
+          "non_completed_compute_share",
+          "reference_cost_usd",
+          "outcomes",
+          "caveats"
+        ],
+        "title": "Baseline",
+        "type": "object"
+      },
+      "Bounds": {
+        "additionalProperties": false,
+        "properties": {
+          "high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "High"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Low"
+          },
+          "point": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Point"
+          }
+        },
+        "required": [
+          "low",
+          "point",
+          "high"
+        ],
+        "title": "Bounds",
+        "type": "object"
+      },
+      "CausalChainHop": {
+        "properties": {
+          "change_pct": {
+            "default": 0.0,
+            "title": "Change Pct",
+            "type": "number"
+          },
+          "metric_name": {
+            "title": "Metric Name",
+            "type": "string"
+          },
+          "pattern": {
+            "title": "Pattern",
+            "type": "string"
+          },
+          "resource_id": {
+            "title": "Resource Id",
+            "type": "string"
+          },
+          "z_score": {
+            "default": 0.0,
+            "title": "Z Score",
+            "type": "number"
+          }
+        },
+        "required": [
+          "resource_id",
+          "metric_name",
+          "pattern"
+        ],
+        "title": "CausalChainHop",
+        "type": "object"
+      },
+      "CausalFinding": {
+        "properties": {
+          "algorithm_agreement": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Algorithm Agreement"
+          },
+          "causal_chain": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CausalChainHop"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Causal Chain"
+          },
+          "confidence": {
+            "default": 0.0,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "culprit": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/Culprit"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Culprit"
+          },
+          "root_cause": {
+            "title": "Root Cause",
+            "type": "string"
+          },
+          "run_seconds": {
+            "default": 0.0,
+            "title": "Run Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "root_cause"
+        ],
+        "title": "CausalFinding",
+        "type": "object"
+      },
+      "CausalRequest": {
+        "properties": {
+          "finding_id": {
+            "title": "Finding Id",
+            "type": "string"
+          },
+          "hop_count": {
+            "default": 3,
+            "title": "Hop Count",
+            "type": "integer"
+          },
+          "integration_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integration Id"
+          }
+        },
+        "required": [
+          "finding_id"
+        ],
+        "title": "CausalRequest",
+        "type": "object"
+      },
+      "CausalResponse": {
+        "properties": {
+          "findings": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/CausalFinding"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Findings"
+          },
+          "message": {
+            "default": "Causal analysis completed",
+            "title": "Message",
+            "type": "string"
+          },
+          "success": {
+            "default": true,
+            "title": "Success",
+            "type": "boolean"
+          }
+        },
+        "title": "CausalResponse",
+        "type": "object"
+      },
+      "ClaimsRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "evaluation_request": {
+            "$ref": "#/components/schemas/EvaluationRequest"
+          },
+          "team": {
+            "title": "Team",
+            "type": "string"
+          }
+        },
+        "required": [
+          "team",
+          "evaluation_request"
+        ],
+        "title": "ClaimsRequest",
+        "type": "object"
+      },
+      "ClaimsResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "claims": {
+            "additionalProperties": true,
+            "title": "Claims",
+            "type": "object"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "meta",
+          "claims"
+        ],
+        "title": "ClaimsResponse",
+        "type": "object"
+      },
+      "CpuMigrationParameters": {
+        "additionalProperties": false,
+        "properties": {
+          "added_elapsed_hours_per_job": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "additional_cpu_core_hours_per_gpu_hour": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recoverable_fraction": {
+            "$ref": "#/components/schemas/Bounds"
+          },
+          "rerun_gpu_hours_per_candidate_gpu_hour": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "recoverable_fraction",
+          "additional_cpu_core_hours_per_gpu_hour",
+          "rerun_gpu_hours_per_candidate_gpu_hour",
+          "added_elapsed_hours_per_job"
+        ],
+        "title": "CpuMigrationParameters",
+        "type": "object"
+      },
+      "Culprit": {
+        "properties": {
+          "node": {
+            "title": "Node",
+            "type": "string"
+          },
+          "resource_id": {
+            "title": "Resource Id",
+            "type": "string"
+          },
+          "score": {
+            "title": "Score",
+            "type": "number"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "resource_id",
+          "node",
+          "type",
+          "score"
+        ],
+        "title": "Culprit",
+        "type": "object"
+      },
+      "DecisionConfig": {
+        "additionalProperties": false,
+        "properties": {
+          "action_ids": {
+            "items": {
+              "enum": [
+                "cpu_migration",
+                "idle_session_reclaim"
+              ],
+              "type": "string"
+            },
+            "title": "Action Ids",
+            "type": "array"
+          },
+          "allocation_order": {
+            "items": {
+              "enum": [
+                "cpu_migration",
+                "idle_session_reclaim"
+              ],
+              "type": "string"
+            },
+            "title": "Allocation Order",
+            "type": "array"
+          },
+          "default_request": {
+            "$ref": "#/components/schemas/EvaluationRequest"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "meta",
+          "default_request",
+          "action_ids",
+          "allocation_order"
+        ],
+        "title": "DecisionConfig",
+        "type": "object"
+      },
+      "DecisionHealth": {
+        "additionalProperties": false,
+        "properties": {
+          "audit_status": {
+            "enum": [
+              "not_run",
+              "running",
+              "completed",
+              "partial",
+              "failed"
+            ],
+            "title": "Audit Status",
+            "type": "string"
+          },
+          "dataset_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dataset Id"
+          },
+          "schema_version": {
+            "const": "1.0.0",
+            "default": "1.0.0",
+            "title": "Schema Version",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "ready",
+              "not_ready"
+            ],
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status",
+          "dataset_id",
+          "audit_status"
+        ],
+        "title": "DecisionHealth",
+        "type": "object"
+      },
+      "DetectResponse": {
+        "properties": {
+          "message": {
+            "default": "Detection completed",
+            "title": "Message",
+            "type": "string"
+          },
+          "results": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "default": {},
+            "title": "Results",
+            "type": "object"
+          },
+          "success": {
+            "default": true,
+            "title": "Success",
+            "type": "boolean"
+          }
+        },
+        "title": "DetectResponse",
+        "type": "object"
+      },
+      "Envelope": {
+        "description": "Every Layer B response carries this.\n\n`kind` tells the reader what they are getting:\n  fact       deterministic, recomputable from the raw data\n  judgment   a model said so; `confidence` is populated\n  simulated  synthetic, no real signal underneath",
+        "properties": {
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "kind": {
+            "enum": [
+              "fact",
+              "judgment",
+              "simulated"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "metric": {
+            "title": "Metric",
+            "type": "string"
+          },
+          "monetized": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Monetized"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "provenance": {
+            "$ref": "#/components/schemas/Provenance"
+          },
+          "rows": {
+            "anyOf": [
+              {
+                "items": {
+                  "additionalProperties": true,
+                  "type": "object"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rows"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Value"
+          },
+          "window": {
+            "$ref": "#/components/schemas/Window"
+          }
+        },
+        "required": [
+          "metric",
+          "window",
+          "unit",
+          "kind",
+          "provenance"
+        ],
+        "title": "Envelope",
+        "type": "object"
+      },
+      "ErrorInfo": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "title": "Code",
+            "type": "string"
+          },
+          "details": {
+            "additionalProperties": true,
+            "title": "Details",
+            "type": "object"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "message",
+          "details"
+        ],
+        "title": "ErrorInfo",
+        "type": "object"
+      },
+      "ErrorResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "error": {
+            "$ref": "#/components/schemas/ErrorInfo"
+          },
+          "schema_version": {
+            "const": "1.0.0",
+            "default": "1.0.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "error"
+        ],
+        "title": "ErrorResponse",
+        "type": "object"
+      },
+      "Estimate": {
+        "additionalProperties": false,
+        "properties": {
+          "basis": {
+            "title": "Basis",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "null"
+          },
+          "high": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "High"
+          },
+          "interval_kind": {
+            "const": "scenario",
+            "default": "scenario",
+            "title": "Interval Kind",
+            "type": "string"
+          },
+          "low": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Low"
+          },
+          "point": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Point"
+          },
+          "unit": {
+            "enum": [
+              "gpu_hours",
+              "usd",
+              "cpu_core_hours",
+              "job_hours"
+            ],
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "low",
+          "point",
+          "high",
+          "unit",
+          "basis"
+        ],
+        "title": "Estimate",
+        "type": "object"
+      },
+      "Evaluation": {
+        "additionalProperties": false,
+        "properties": {
+          "actions": {
+            "items": {
+              "$ref": "#/components/schemas/ActionEvaluation"
+            },
+            "title": "Actions",
+            "type": "array"
+          },
+          "audit_status": {
+            "enum": [
+              "not_run",
+              "running",
+              "completed",
+              "partial",
+              "failed"
+            ],
+            "title": "Audit Status",
+            "type": "string"
+          },
+          "baseline": {
+            "$ref": "#/components/schemas/Baseline"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "portfolio": {
+            "$ref": "#/components/schemas/Portfolio"
+          },
+          "price_book_version": {
+            "title": "Price Book Version",
+            "type": "string"
+          },
+          "ranking_basis": {
+            "title": "Ranking Basis",
+            "type": "string"
+          },
+          "request": {
+            "$ref": "#/components/schemas/EvaluationRequest"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "meta",
+          "request",
+          "price_book_version",
+          "baseline",
+          "actions",
+          "portfolio",
+          "ranking_basis",
+          "audit_status",
+          "warnings"
+        ],
+        "title": "Evaluation",
+        "type": "object"
+      },
+      "EvaluationRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "cpu_migration": {
+            "$ref": "#/components/schemas/CpuMigrationParameters"
+          },
+          "idle_session_reclaim": {
+            "$ref": "#/components/schemas/IdleSessionParameters"
+          },
+          "pricing": {
+            "$ref": "#/components/schemas/Pricing"
+          },
+          "selected_action_ids": {
+            "items": {
+              "enum": [
+                "cpu_migration",
+                "idle_session_reclaim"
+              ],
+              "type": "string"
+            },
+            "title": "Selected Action Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "selected_action_ids",
+          "pricing",
+          "cpu_migration",
+          "idle_session_reclaim"
+        ],
+        "title": "EvaluationRequest",
+        "type": "object"
+      },
+      "EvidencePage": {
+        "additionalProperties": false,
+        "properties": {
+          "action_id": {
+            "enum": [
+              "cpu_migration",
+              "idle_session_reclaim"
+            ],
+            "title": "Action Id",
+            "type": "string"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "next_offset": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Offset"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "rows": {
+            "items": {
+              "$ref": "#/components/schemas/JobEvidenceRow"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "scope": {
+            "enum": [
+              "standalone",
+              "marginal"
+            ],
+            "title": "Scope",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "meta",
+          "action_id",
+          "scope",
+          "rows",
+          "total",
+          "offset",
+          "limit",
+          "next_offset"
+        ],
+        "title": "EvidencePage",
+        "type": "object"
+      },
+      "ExclusionCount": {
+        "additionalProperties": false,
+        "properties": {
+          "jobs": {
+            "title": "Jobs",
+            "type": "integer"
+          },
+          "reason": {
+            "title": "Reason",
+            "type": "string"
+          }
+        },
+        "required": [
+          "reason",
+          "jobs"
+        ],
+        "title": "ExclusionCount",
+        "type": "object"
+      },
+      "Finding": {
+        "properties": {
+          "category": {
+            "enum": [
+              "SECURITY",
+              "COMPLIANCE",
+              "PERFORMANCE",
+              "CONFIG",
+              "AVAILABILITY",
+              "COST"
+            ],
+            "title": "Category",
+            "type": "string"
+          },
+          "confidence": {
+            "enum": [
+              "HIGH",
+              "MEDIUM",
+              "LOW"
+            ],
+            "title": "Confidence",
+            "type": "string"
+          },
+          "detectionTime": {
+            "title": "Detectiontime",
+            "type": "string"
+          },
+          "detectorId": {
+            "title": "Detectorid",
+            "type": "string"
+          },
+          "enterpriseId": {
+            "title": "Enterpriseid",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "impactDescription": {
+            "title": "Impactdescription",
+            "type": "string"
+          },
+          "integrationId": {
+            "title": "Integrationid",
+            "type": "string"
+          },
+          "isActive": {
+            "title": "Isactive",
+            "type": "boolean"
+          },
+          "longDescription": {
+            "title": "Longdescription",
+            "type": "string"
+          },
+          "metadata": {
+            "additionalProperties": true,
+            "title": "Metadata",
+            "type": "object"
+          },
+          "priority": {
+            "title": "Priority",
+            "type": "string"
+          },
+          "resourceIds": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Resourceids",
+            "type": "array"
+          },
+          "rootCauses": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Rootcauses",
+            "type": "array"
+          },
+          "severity": {
+            "enum": [
+              "CRITICAL",
+              "HIGH",
+              "LOW"
+            ],
+            "title": "Severity",
+            "type": "string"
+          },
+          "shortDescription": {
+            "title": "Shortdescription",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "integrationId",
+          "enterpriseId",
+          "detectorId",
+          "shortDescription",
+          "longDescription",
+          "impactDescription",
+          "resourceIds",
+          "status",
+          "severity",
+          "confidence",
+          "category",
+          "priority",
+          "detectionTime",
+          "isActive",
+          "metadata"
+        ],
+        "title": "Finding",
+        "type": "object"
+      },
+      "FindingDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "causal_status": {
+            "enum": [
+              "available",
+              "no_chain"
+            ],
+            "title": "Causal Status",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "detector_id": {
+            "title": "Detector Id",
+            "type": "string"
+          },
+          "evidence_origin": {
+            "enum": [
+              "real_telemetry",
+              "synthetic_incident",
+              "test_fixture"
+            ],
+            "title": "Evidence Origin",
+            "type": "string"
+          },
+          "finding_id": {
+            "title": "Finding Id",
+            "type": "string"
+          },
+          "impact_kind": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Impact Kind"
+          },
+          "impact_scope": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Impact Scope"
+          },
+          "job_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Job Ids",
+            "type": "array"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "node_names": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Node Names",
+            "type": "array"
+          },
+          "reported_impact_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported Impact Gpu Hours"
+          },
+          "resource_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Resource Ids",
+            "type": "array"
+          },
+          "root_cause_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Root Cause Ids",
+            "type": "array"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "meta",
+          "finding_id",
+          "detector_id",
+          "title",
+          "description",
+          "resource_ids",
+          "root_cause_ids",
+          "job_ids",
+          "node_names",
+          "evidence_origin",
+          "impact_scope",
+          "impact_kind",
+          "reported_impact_gpu_hours",
+          "causal_status",
+          "method"
+        ],
+        "title": "FindingDetail",
+        "type": "object"
+      },
+      "FindingsRequest": {
+        "properties": {
+          "category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Category"
+          },
+          "detector_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detector Id"
+          },
+          "integration_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integration Id"
+          },
+          "limit": {
+            "default": 100,
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "default": 0,
+            "title": "Offset",
+            "type": "integer"
+          },
+          "resource_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resource Id"
+          },
+          "severity": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Severity"
+          }
+        },
+        "title": "FindingsRequest",
+        "type": "object"
+      },
+      "FindingsResponse": {
+        "properties": {
+          "findings": {
+            "items": {
+              "$ref": "#/components/schemas/Finding"
+            },
+            "title": "Findings",
+            "type": "array"
+          },
+          "success": {
+            "default": true,
+            "title": "Success",
+            "type": "boolean"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "findings"
+        ],
+        "title": "FindingsResponse",
+        "type": "object"
+      },
+      "GpuDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "capped_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capped Gpu Hours"
+          },
+          "gpu_id": {
+            "title": "Gpu Id",
+            "type": "integer"
+          },
+          "measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Measured Gpu Hours"
+          },
+          "node": {
+            "title": "Node",
+            "type": "string"
+          },
+          "quality_flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Quality Flags",
+            "type": "array"
+          },
+          "smutilization_pct_avg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Smutilization Pct Avg"
+          },
+          "smutilization_pct_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Smutilization Pct Max"
+          },
+          "totalexecutiontime_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Totalexecutiontime Sec"
+          }
+        },
+        "required": [
+          "node",
+          "gpu_id",
+          "totalexecutiontime_sec",
+          "smutilization_pct_avg",
+          "smutilization_pct_max",
+          "measured_gpu_hours",
+          "capped_gpu_hours",
+          "quality_flags"
+        ],
+        "title": "GpuDetail",
+        "type": "object"
+      },
+      "GraphEdge": {
+        "properties": {
+          "source_id": {
+            "title": "Source Id",
+            "type": "string"
+          },
+          "source_name": {
+            "default": "",
+            "title": "Source Name",
+            "type": "string"
+          },
+          "target_id": {
+            "title": "Target Id",
+            "type": "string"
+          },
+          "target_name": {
+            "default": "",
+            "title": "Target Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_id",
+          "target_id"
+        ],
+        "title": "GraphEdge",
+        "type": "object"
+      },
+      "GraphNode": {
+        "properties": {
+          "metric_name": {
+            "default": "",
+            "title": "Metric Name",
+            "type": "string"
+          },
+          "node_id": {
+            "title": "Node Id",
+            "type": "string"
+          },
+          "resource_id": {
+            "title": "Resource Id",
+            "type": "string"
+          },
+          "resource_name": {
+            "default": "",
+            "title": "Resource Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "node_id",
+          "resource_id"
+        ],
+        "title": "GraphNode",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "IdleSessionParameters": {
+        "additionalProperties": false,
+        "properties": {
+          "added_elapsed_hours_per_job": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recoverable_fraction": {
+            "$ref": "#/components/schemas/Bounds"
+          },
+          "rerun_gpu_hours_per_candidate_gpu_hour": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Bounds"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "recoverable_fraction",
+          "rerun_gpu_hours_per_candidate_gpu_hour",
+          "added_elapsed_hours_per_job"
+        ],
+        "title": "IdleSessionParameters",
+        "type": "object"
+      },
+      "Investigation": {
+        "additionalProperties": false,
+        "properties": {
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "evidence_origin": {
+            "enum": [
+              "real_telemetry",
+              "synthetic_incident",
+              "mixed"
+            ],
+            "title": "Evidence Origin",
+            "type": "string"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finding Ids",
+            "type": "array"
+          },
+          "investigation_id": {
+            "const": "node_recommendation_audit",
+            "title": "Investigation Id",
+            "type": "string"
+          },
+          "limitations": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Limitations",
+            "type": "array"
+          },
+          "model_used": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Model Used"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/NodeAudit"
+            },
+            "title": "Nodes",
+            "type": "array"
+          },
+          "nominal_drain_gpu_hours_24h": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Nominal Drain Gpu Hours 24H"
+          },
+          "recommendation_id": {
+            "title": "Recommendation Id",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "not_run",
+              "running",
+              "completed",
+              "partial",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          },
+          "token_usage": {
+            "anyOf": [
+              {
+                "additionalProperties": {
+                  "type": "integer"
+                },
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Token Usage"
+          },
+          "tool_calls": {
+            "items": {
+              "$ref": "#/components/schemas/ToolCallRecord"
+            },
+            "title": "Tool Calls",
+            "type": "array"
+          },
+          "verdict": {
+            "enum": [
+              "accept",
+              "revise",
+              "reject",
+              "cannot_determine"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "investigation_id",
+          "dataset_id",
+          "status",
+          "verdict",
+          "evidence_origin",
+          "recommendation_id",
+          "finding_ids",
+          "summary",
+          "limitations",
+          "nodes",
+          "nominal_drain_gpu_hours_24h",
+          "tool_calls",
+          "model_used",
+          "token_usage"
+        ],
+        "title": "Investigation",
+        "type": "object"
+      },
+      "InvestigationResponse": {
+        "additionalProperties": false,
+        "properties": {
+          "investigation": {
+            "$ref": "#/components/schemas/Investigation"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          }
+        },
+        "required": [
+          "meta",
+          "investigation"
+        ],
+        "title": "InvestigationResponse",
+        "type": "object"
+      },
+      "JobDetail": {
+        "additionalProperties": false,
+        "properties": {
+          "array_job_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Array Job Id"
+          },
+          "attempts": {
+            "title": "Attempts",
+            "type": "integer"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finding Ids",
+            "type": "array"
+          },
+          "gpus": {
+            "items": {
+              "$ref": "#/components/schemas/GpuDetail"
+            },
+            "title": "Gpus",
+            "type": "array"
+          },
+          "hit_node_failure": {
+            "title": "Hit Node Failure",
+            "type": "boolean"
+          },
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "job_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Job Type"
+          },
+          "measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Measured Gpu Hours"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/Meta"
+          },
+          "nodefail_exact": {
+            "title": "Nodefail Exact",
+            "type": "boolean"
+          },
+          "nodefail_nodes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Nodefail Nodes",
+            "type": "array"
+          },
+          "quality_flags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Quality Flags",
+            "type": "array"
+          },
+          "sm_util_avg": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sm Util Avg"
+          },
+          "sm_util_max": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sm Util Max"
+          },
+          "state_name": {
+            "title": "State Name",
+            "type": "string"
+          },
+          "time_end_offset_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time End Offset Sec"
+          },
+          "time_start_offset_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Start Offset Sec"
+          },
+          "time_submit_offset_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Time Submit Offset Sec"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "walltime_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Walltime Sec"
+          }
+        },
+        "required": [
+          "meta",
+          "job_id",
+          "user_id",
+          "array_job_id",
+          "state_name",
+          "job_type",
+          "attempts",
+          "hit_node_failure",
+          "nodefail_nodes",
+          "nodefail_exact",
+          "time_submit_offset_sec",
+          "time_start_offset_sec",
+          "time_end_offset_sec",
+          "walltime_sec",
+          "measured_gpu_hours",
+          "sm_util_avg",
+          "sm_util_max",
+          "finding_ids",
+          "gpus",
+          "quality_flags"
+        ],
+        "title": "JobDetail",
+        "type": "object"
+      },
+      "JobEvidenceRow": {
+        "additionalProperties": false,
+        "properties": {
+          "candidate_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Candidate Gpu Hours"
+          },
+          "capped_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Capped Gpu Hours"
+          },
+          "contribution_gpu_hours": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "eligibility": {
+            "enum": [
+              "included",
+              "excluded",
+              "overlap_assigned_elsewhere"
+            ],
+            "title": "Eligibility",
+            "type": "string"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finding Ids",
+            "type": "array"
+          },
+          "gpu_count": {
+            "title": "Gpu Count",
+            "type": "integer"
+          },
+          "job_id": {
+            "title": "Job Id",
+            "type": "string"
+          },
+          "measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Measured Gpu Hours"
+          },
+          "nodes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Nodes",
+            "type": "array"
+          },
+          "reasons": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Reasons",
+            "type": "array"
+          },
+          "state_name": {
+            "title": "State Name",
+            "type": "string"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          }
+        },
+        "required": [
+          "job_id",
+          "user_id",
+          "state_name",
+          "gpu_count",
+          "measured_gpu_hours",
+          "capped_gpu_hours",
+          "candidate_gpu_hours",
+          "contribution_gpu_hours",
+          "eligibility",
+          "reasons",
+          "finding_ids",
+          "nodes"
+        ],
+        "title": "JobEvidenceRow",
+        "type": "object"
+      },
+      "Meta": {
+        "additionalProperties": false,
+        "properties": {
+          "analysis_version": {
+            "const": "track2-decision-v1",
+            "default": "track2-decision-v1",
+            "title": "Analysis Version",
+            "type": "string"
+          },
+          "data_origin": {
+            "enum": [
+              "official_dataset",
+              "test_fixture"
+            ],
+            "title": "Data Origin",
+            "type": "string"
+          },
+          "dataset_id": {
+            "title": "Dataset Id",
+            "type": "string"
+          },
+          "evaluation_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Evaluation Id"
+          },
+          "sample_window": {
+            "$ref": "#/components/schemas/SampleWindow"
+          },
+          "schema_version": {
+            "const": "1.0.0",
+            "default": "1.0.0",
+            "title": "Schema Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dataset_id",
+          "evaluation_id",
+          "data_origin",
+          "sample_window"
+        ],
+        "title": "Meta",
+        "type": "object"
+      },
+      "Monetized": {
+        "properties": {
+          "amount": {
+            "title": "Amount",
+            "type": "number"
+          },
+          "currency": {
+            "default": "USD",
+            "title": "Currency",
+            "type": "string"
+          },
+          "price_book_version": {
+            "title": "Price Book Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "amount",
+          "price_book_version"
+        ],
+        "title": "Monetized",
+        "type": "object"
+      },
+      "NeighborRequest": {
+        "properties": {
+          "hop_count": {
+            "default": 1,
+            "title": "Hop Count",
+            "type": "integer"
+          },
+          "integration_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Integration Id"
+          },
+          "resource_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Resource Ids",
+            "type": "array"
+          }
+        },
+        "required": [
+          "resource_ids"
+        ],
+        "title": "NeighborRequest",
+        "type": "object"
+      },
+      "NeighborResponse": {
+        "properties": {
+          "graphs": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/StructuralGraph"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Graphs"
+          },
+          "message": {
+            "default": "Neighbor lookup completed",
+            "title": "Message",
+            "type": "string"
+          },
+          "success": {
+            "default": true,
+            "title": "Success",
+            "type": "boolean"
+          }
+        },
+        "title": "NeighborResponse",
+        "type": "object"
+      },
+      "NodeAudit": {
+        "additionalProperties": false,
+        "properties": {
+          "cause": {
+            "enum": [
+              "hardware",
+              "user_code",
+              "workload_mix",
+              "cannot_determine"
+            ],
+            "title": "Cause",
+            "type": "string"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finding Ids",
+            "type": "array"
+          },
+          "node_name": {
+            "title": "Node Name",
+            "type": "string"
+          },
+          "reasoning": {
+            "title": "Reasoning",
+            "type": "string"
+          },
+          "reported_findings": {
+            "title": "Reported Findings",
+            "type": "integer"
+          },
+          "resource_id": {
+            "title": "Resource Id",
+            "type": "string"
+          },
+          "returned_findings": {
+            "title": "Returned Findings",
+            "type": "integer"
+          },
+          "scope_description": {
+            "title": "Scope Description",
+            "type": "string"
+          },
+          "truncated": {
+            "title": "Truncated",
+            "type": "boolean"
+          },
+          "verdict": {
+            "enum": [
+              "inspect",
+              "no_drain",
+              "cannot_determine"
+            ],
+            "title": "Verdict",
+            "type": "string"
+          }
+        },
+        "required": [
+          "node_name",
+          "resource_id",
+          "cause",
+          "verdict",
+          "scope_description",
+          "finding_ids",
+          "reported_findings",
+          "returned_findings",
+          "truncated",
+          "reasoning"
+        ],
+        "title": "NodeAudit",
+        "type": "object"
+      },
+      "OutcomeRow": {
+        "additionalProperties": false,
+        "properties": {
+          "jobs": {
+            "title": "Jobs",
+            "type": "integer"
+          },
+          "measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Measured Gpu Hours"
+          },
+          "reference_cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Reference Cost Usd"
+          },
+          "share_of_measured_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Share Of Measured Gpu Hours"
+          },
+          "state_name": {
+            "title": "State Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "state_name",
+          "jobs",
+          "measured_gpu_hours",
+          "share_of_measured_gpu_hours",
+          "reference_cost_usd"
+        ],
+        "title": "OutcomeRow",
+        "type": "object"
+      },
+      "Pilot": {
+        "additionalProperties": false,
+        "properties": {
+          "rollback_steps": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Rollback Steps",
+            "type": "array"
+          },
+          "stop_conditions": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Stop Conditions",
+            "type": "array"
+          },
+          "success_metrics": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Success Metrics",
+            "type": "array"
+          }
+        },
+        "required": [
+          "success_metrics",
+          "stop_conditions",
+          "rollback_steps"
+        ],
+        "title": "Pilot",
+        "type": "object"
+      },
+      "Portfolio": {
+        "additionalProperties": false,
+        "properties": {
+          "allocation_order": {
+            "items": {
+              "enum": [
+                "cpu_migration",
+                "idle_session_reclaim"
+              ],
+              "type": "string"
+            },
+            "title": "Allocation Order",
+            "type": "array"
+          },
+          "caveats": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Caveats",
+            "type": "array"
+          },
+          "overlap_jobs": {
+            "title": "Overlap Jobs",
+            "type": "integer"
+          },
+          "recoverable_gpu_hours": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "reference_savings_usd": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "risk": {
+            "$ref": "#/components/schemas/RiskResult"
+          },
+          "sample_capacity_gap_gpu_hours": {
+            "$ref": "#/components/schemas/Estimate"
+          },
+          "sample_capacity_target_fraction": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Sample Capacity Target Fraction"
+          },
+          "sample_capacity_target_gpu_hours": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Sample Capacity Target Gpu Hours"
+          },
+          "selected_action_ids": {
+            "items": {
+              "enum": [
+                "cpu_migration",
+                "idle_session_reclaim"
+              ],
+              "type": "string"
+            },
+            "title": "Selected Action Ids",
+            "type": "array"
+          },
+          "unique_jobs": {
+            "title": "Unique Jobs",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "selected_action_ids",
+          "allocation_order",
+          "unique_jobs",
+          "overlap_jobs",
+          "recoverable_gpu_hours",
+          "reference_savings_usd",
+          "risk",
+          "sample_capacity_target_fraction",
+          "sample_capacity_target_gpu_hours",
+          "sample_capacity_gap_gpu_hours",
+          "caveats"
+        ],
+        "title": "Portfolio",
+        "type": "object"
+      },
+      "PriceBook": {
+        "properties": {
+          "epoch_offset": {
+            "default": 0,
+            "title": "Epoch Offset",
+            "type": "integer"
+          },
+          "usd_per_engineer_hour": {
+            "default": 95.0,
+            "title": "Usd Per Engineer Hour",
+            "type": "number"
+          },
+          "usd_per_gpu_hour": {
+            "default": 2.5,
+            "title": "Usd Per Gpu Hour",
+            "type": "number"
+          },
+          "usd_per_kwh": {
+            "default": 0.15,
+            "title": "Usd Per Kwh",
+            "type": "number"
+          },
+          "version": {
+            "default": "2026-Q3",
+            "title": "Version",
+            "type": "string"
+          }
+        },
+        "title": "PriceBook",
+        "type": "object"
+      },
+      "Pricing": {
+        "additionalProperties": false,
+        "properties": {
+          "usd_per_cpu_core_hour": {
+            "anyOf": [
+              {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "integer"
+                  }
+                ],
+                "ge": 0,
+                "le": 1000000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Usd Per Cpu Core Hour"
+          },
+          "usd_per_gpu_hour": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "ge": 0,
+            "le": 1000000,
+            "title": "Usd Per Gpu Hour"
+          }
+        },
+        "required": [
+          "usd_per_gpu_hour"
+        ],
+        "title": "Pricing",
+        "type": "object"
+      },
+      "Provenance": {
+        "properties": {
+          "caveat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Caveat"
+          },
+          "method": {
+            "title": "Method",
+            "type": "string"
+          },
+          "signals": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Signals",
+            "type": "array"
+          }
+        },
+        "required": [
+          "signals",
+          "method"
+        ],
+        "title": "Provenance",
+        "type": "object"
+      },
+      "Recommendation": {
+        "properties": {
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "effort": {
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Effort",
+            "type": "string"
+          },
+          "estimated_savings": {
+            "$ref": "#/components/schemas/Monetized"
+          },
+          "estimated_savings_gpu_hours": {
+            "title": "Estimated Savings Gpu Hours",
+            "type": "number"
+          },
+          "finding_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Finding Ids",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "default": "judgment",
+            "enum": [
+              "fact",
+              "judgment",
+              "simulated"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "title": {
+            "title": "Title",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "title",
+          "action",
+          "estimated_savings",
+          "estimated_savings_gpu_hours",
+          "effort",
+          "confidence",
+          "finding_ids"
+        ],
+        "title": "Recommendation",
+        "type": "object"
+      },
+      "RecommendationsResponse": {
+        "properties": {
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/Recommendation"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          }
+        },
+        "required": [
+          "recommendations"
+        ],
+        "title": "RecommendationsResponse",
+        "type": "object"
+      },
+      "RiskResult": {
+        "additionalProperties": false,
+        "properties": {
+          "added_job_hours": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "additional_cpu_core_hours": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "additional_cpu_cost_usd": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cash_savings_usd": {
+            "title": "Cash Savings Usd",
+            "type": "null"
+          },
+          "rerun_gpu_hours": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "rerun_reference_cost_usd": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Estimate"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "unknowns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Unknowns",
+            "type": "array"
+          }
+        },
+        "required": [
+          "rerun_gpu_hours",
+          "rerun_reference_cost_usd",
+          "additional_cpu_core_hours",
+          "additional_cpu_cost_usd",
+          "added_job_hours",
+          "unknowns"
+        ],
+        "title": "RiskResult",
+        "type": "object"
+      },
+      "RuleTemplate": {
+        "properties": {
+          "can_auto_remediate": {
+            "default": false,
+            "title": "Can Auto Remediate",
+            "type": "boolean"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "findings": {
+            "default": 0,
+            "title": "Findings",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "rule_id": {
+            "title": "Rule Id",
+            "type": "string"
+          },
+          "short_help": {
+            "default": "",
+            "title": "Short Help",
+            "type": "string"
+          },
+          "status": {
+            "default": "ACTIVE",
+            "title": "Status",
+            "type": "string"
+          },
+          "summary": {
+            "title": "Summary",
+            "type": "string"
+          }
+        },
+        "required": [
+          "rule_id",
+          "name",
+          "category",
+          "summary"
+        ],
+        "title": "RuleTemplate",
+        "type": "object"
+      },
+      "RuleTemplatesResponse": {
+        "properties": {
+          "rules": {
+            "items": {
+              "$ref": "#/components/schemas/RuleTemplate"
+            },
+            "title": "Rules",
+            "type": "array"
+          },
+          "success": {
+            "default": true,
+            "title": "Success",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "rules"
+        ],
+        "title": "RuleTemplatesResponse",
+        "type": "object"
+      },
+      "SampleWindow": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar_is_mapped": {
+            "const": true,
+            "default": true,
+            "title": "Calendar Is Mapped",
+            "type": "boolean"
+          },
+          "end_offset_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "End Offset Sec"
+          },
+          "epoch_offset_sec": {
+            "title": "Epoch Offset Sec",
+            "type": "integer"
+          },
+          "mapped_end_utc": {
+            "title": "Mapped End Utc",
+            "type": "string"
+          },
+          "mapped_start_utc": {
+            "title": "Mapped Start Utc",
+            "type": "string"
+          },
+          "start_offset_sec": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "integer"
+              }
+            ],
+            "title": "Start Offset Sec"
+          }
+        },
+        "required": [
+          "start_offset_sec",
+          "end_offset_sec",
+          "epoch_offset_sec",
+          "mapped_start_utc",
+          "mapped_end_utc"
+        ],
+        "title": "SampleWindow",
+        "type": "object"
+      },
+      "StructuralGraph": {
+        "properties": {
+          "edges": {
+            "items": {
+              "$ref": "#/components/schemas/GraphEdge"
+            },
+            "title": "Edges",
+            "type": "array"
+          },
+          "nodes": {
+            "items": {
+              "$ref": "#/components/schemas/GraphNode"
+            },
+            "title": "Nodes",
+            "type": "array"
+          },
+          "resource_adjacencies": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "default": {},
+            "title": "Resource Adjacencies",
+            "type": "object"
+          },
+          "resource_types": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {},
+            "title": "Resource Types",
+            "type": "object"
+          },
+          "rule_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Rule Id"
+          },
+          "start_nodes": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Start Nodes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "nodes",
+          "edges"
+        ],
+        "title": "StructuralGraph",
+        "type": "object"
+      },
+      "ToolCallRecord": {
+        "additionalProperties": false,
+        "properties": {
+          "arguments": {
+            "additionalProperties": true,
+            "title": "Arguments",
+            "type": "object"
+          },
+          "call_id": {
+            "title": "Call Id",
+            "type": "string"
+          },
+          "duration_ms": {
+            "title": "Duration Ms",
+            "type": "integer"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error"
+          },
+          "result": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Result"
+          },
+          "sequence": {
+            "title": "Sequence",
+            "type": "integer"
+          },
+          "started_at_utc": {
+            "title": "Started At Utc",
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "success",
+              "error",
+              "timeout"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "tool_name": {
+            "title": "Tool Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "call_id",
+          "sequence",
+          "tool_name",
+          "arguments",
+          "started_at_utc",
+          "duration_ms",
+          "status",
+          "result",
+          "error"
+        ],
+        "title": "ToolCallRecord",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "Window": {
+        "properties": {
+          "end": {
+            "title": "End",
+            "type": "string"
+          },
+          "granularity": {
+            "default": "1d",
+            "title": "Granularity",
+            "type": "string"
+          },
+          "start": {
+            "title": "Start",
+            "type": "string"
+          }
+        },
+        "required": [
+          "start",
+          "end"
+        ],
+        "title": "Window",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "description": "**Layer A** mirrors MantisGrid's production API \u2014 same paths and response models as the real product.\n\n**Layer B** is a proposed business layer that does **not** exist in the product yet. Every Layer B response carries `kind`: `fact` (deterministic, recomputable), `judgment` (a model said so \u2014 check `confidence`), or `simulated` (synthetic, no real signal underneath).\n\nJudgment endpoints are not always right. Validate them.\n\n**Pricing:** Layer B endpoints accept optional `usd_per_gpu_hour` and `usd_per_engineer_hour` query parameters to override defaults. This lets you model different pricing scenarios without affecting other users.\n\n**Rate limit:** none by default. Set `MGAI_RATE_LIMIT` (e.g. `60/minute`) to enable one, applied per IP per endpoint.\n\n---\n\n**Data attribution.** Workload telemetry is from the **MIT SuperCloud TX-GAIA** dataset (HPCA'22 release), accompanying *Enabling Workloads on Large-Scale GPU Accelerated Systems: Characterization, Opportunities, and Implications*, and is used under [CC BY-NC-ND 4.0](http://creativecommons.org/licenses/by-nc-nd/4.0/). The reliability layer (hardware-fault attribution, the storage incident) is synthetic and is ours, not MIT's \u2014 every synthetic record carries `metadata.synthetic = true`.\n\nThe publishers note that the release is a *sample* of the workloads that ran on the system and is **not appropriate for estimating system utilization** or drawing broader conclusions about the cluster. Figures here describe this sample over its four-month window, not the cluster.\n\nResearch sponsored by the United States Air Force Research Laboratory and the United States Air Force Artificial Intelligence Accelerator under Cooperative Agreement FA8750-19-2-1000.",
+    "title": "MGAI API (hackathon facsimile)",
+    "version": "1.0.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/health": {
+      "get": {
+        "operationId": "health_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "ops"
+        ]
+      }
+    },
+    "/v1/causal": {
+      "post": {
+        "description": "Root-cause analysis. This endpoint is correct -- it resolves a correlated\ncluster of findings to the single resource underneath.",
+        "operationId": "causal_v1_causal_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CausalRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CausalResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Causal",
+        "tags": [
+          "Layer A \u2014 the real API"
+        ]
+      }
+    },
+    "/v1/decision/actions/{action_id}/evidence": {
+      "post": {
+        "operationId": "evidence_v1_decision_actions__action_id__evidence_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "action_id",
+            "required": true,
+            "schema": {
+              "title": "Action Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "scope",
+            "required": false,
+            "schema": {
+              "default": "standalone",
+              "title": "Scope",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "required": false,
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 200,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EvidencePage"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Evidence",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/claims": {
+      "post": {
+        "operationId": "claims_v1_decision_claims_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClaimsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClaimsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Claims",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/config": {
+      "get": {
+        "operationId": "config_v1_decision_config_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionConfig"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Config",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/evaluate": {
+      "post": {
+        "operationId": "evaluate_v1_decision_evaluate_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EvaluationRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Evaluation"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Unprocessable Entity"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Evaluate",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/findings/{finding_id}": {
+      "get": {
+        "operationId": "finding_v1_decision_findings__finding_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "finding_id",
+            "required": true,
+            "schema": {
+              "title": "Finding Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Finding",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/health": {
+      "get": {
+        "operationId": "health_v1_decision_health_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionHealth"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DecisionHealth"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Health",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/investigations/node_recommendation_audit": {
+      "get": {
+        "operationId": "investigation_v1_decision_investigations_node_recommendation_audit_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InvestigationResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Investigation",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/decision/jobs/{job_id}": {
+      "get": {
+        "operationId": "job_v1_decision_jobs__job_id__get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "job_id",
+            "required": true,
+            "schema": {
+              "title": "Job Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          },
+          "503": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            },
+            "description": "Service Unavailable"
+          }
+        },
+        "summary": "Job",
+        "tags": [
+          "Decision API"
+        ]
+      }
+    },
+    "/v1/detect/{integration_id}": {
+      "post": {
+        "operationId": "detect_v1_detect__integration_id__post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "integration_id",
+            "required": true,
+            "schema": {
+              "title": "Integration Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DetectResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Detect",
+        "tags": [
+          "Layer A \u2014 the real API"
+        ]
+      }
+    },
+    "/v1/efficiency/summary": {
+      "get": {
+        "operationId": "efficiency_summary_v1_efficiency_summary_get",
+        "parameters": [
+          {
+            "description": "Override GPU hourly rate for monetization",
+            "in": "query",
+            "name": "usd_per_gpu_hour",
+            "required": false,
+            "schema": {
+              "default": 2.5,
+              "description": "Override GPU hourly rate for monetization",
+              "title": "Usd Per Gpu Hour",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Efficiency Summary",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/events/findings": {
+      "post": {
+        "operationId": "findings_v1_events_findings_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FindingsRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FindingsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Findings",
+        "tags": [
+          "Layer A \u2014 the real API"
+        ]
+      }
+    },
+    "/v1/neighbor": {
+      "post": {
+        "operationId": "neighbor_v1_neighbor_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NeighborRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NeighborResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Neighbor",
+        "tags": [
+          "Layer A \u2014 the real API"
+        ]
+      }
+    },
+    "/v1/policies/rules": {
+      "get": {
+        "description": "Every rule in the catalogue, including the ones that found nothing.\n\nA rule with zero findings is reported as CLEAR rather than omitted. Knowing\nwhat was checked and came back clean is worth as much as knowing what fired.",
+        "operationId": "rules_v1_policies_rules_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuleTemplatesResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Rules",
+        "tags": [
+          "Layer A \u2014 the real API"
+        ]
+      }
+    },
+    "/v1/price-book": {
+      "get": {
+        "description": "Returns the default price book.\n\nTo model different pricing scenarios, pass `usd_per_gpu_hour` and/or\n`usd_per_engineer_hour` query parameters to the endpoints that use pricing\n(efficiency/summary, queue/latency, resources/underperforming, recommendations).",
+        "operationId": "get_price_book_v1_price_book_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PriceBook"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Get Price Book",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/queue/latency": {
+      "get": {
+        "operationId": "queue_latency_v1_queue_latency_get",
+        "parameters": [
+          {
+            "description": "Override engineer hourly rate for monetization",
+            "in": "query",
+            "name": "usd_per_engineer_hour",
+            "required": false,
+            "schema": {
+              "default": 95.0,
+              "description": "Override engineer hourly rate for monetization",
+              "title": "Usd Per Engineer Hour",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Queue Latency",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/recommendations": {
+      "get": {
+        "operationId": "recommendations_v1_recommendations_get",
+        "parameters": [
+          {
+            "description": "Override GPU hourly rate for monetization",
+            "in": "query",
+            "name": "usd_per_gpu_hour",
+            "required": false,
+            "schema": {
+              "default": 2.5,
+              "description": "Override GPU hourly rate for monetization",
+              "title": "Usd Per Gpu Hour",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecommendationsResponse"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Recommendations",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/resources/underperforming": {
+      "get": {
+        "description": "Ranked underperforming resources.\n\nA judgment endpoint. It aggregates findings per entity. It does not read\n`rootCauses`, so correlated findings sharing one cause are counted as\nindependent problems. Validate against /v1/causal before acting.",
+        "operationId": "underperforming_v1_resources_underperforming_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "entity_type",
+            "required": false,
+            "schema": {
+              "default": "user",
+              "pattern": "^(user|node)$",
+              "title": "Entity Type",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 10,
+              "title": "Limit",
+              "type": "integer"
+            }
+          },
+          {
+            "description": "Override GPU hourly rate for monetization",
+            "in": "query",
+            "name": "usd_per_gpu_hour",
+            "required": false,
+            "schema": {
+              "default": 2.5,
+              "description": "Override GPU hourly rate for monetization",
+              "title": "Usd Per Gpu Hour",
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Underperforming",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/scaling/efficiency": {
+      "get": {
+        "operationId": "scaling_efficiency_v1_scaling_efficiency_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Scaling Efficiency",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    },
+    "/v1/waste/breakdown": {
+      "get": {
+        "operationId": "waste_breakdown_v1_waste_breakdown_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "Waste Breakdown",
+        "tags": [
+          "Layer B \u2014 proposed"
+        ]
+      }
+    }
+  }
+}
