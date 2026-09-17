@@ -71,13 +71,8 @@ export function ChatAgentPanel({ evaluation, open, onOpen, onClose }: {
     </button>
     {open && <section ref={panel} id="chat-agent-dialog" className="chat-agent" role="dialog" aria-modal="false" aria-labelledby="chat-agent-title">
     <div className="chat-agent-heading">
-      <div><p className="eyebrow">CONTROLLED TOOL USE</p><h2 id="chat-agent-title">Ask the cluster</h2></div>
-      <div className="chat-agent-controls"><span>Read-only · evidence grounded</span><button type="button" onClick={close} aria-label="Close AI chat">×</button></div>
-    </div>
-    <p>Ask a basic question about the applied scenario. The agent can inspect decision results and official MantisGrid evidence, but cannot operate the scheduler.</p>
-    <div className="chat-starters" aria-label="Starter questions">
-      {['What should we do first?', 'Why is this recoverable?', 'What could make this recommendation wrong?'].map(item =>
-        <button key={item} type="button" onClick={() => setQuestion(item)}>{item}</button>)}
+      <h2 id="chat-agent-title">Ask AI</h2>
+      <button type="button" onClick={close} aria-label="Close AI chat">×</button>
     </div>
     <div className="chat-history" aria-live="polite">
       {exchanges.map((item, index) => <article key={`${index}-${item.question}`}>
@@ -90,11 +85,12 @@ export function ChatAgentPanel({ evaluation, open, onOpen, onClose }: {
     </div>
     {error && <p className="chat-error" role="alert">{error}</p>}
     <div className="chat-compose">
-      <label htmlFor="agent-question">Ask about this analysis</label>
-      <textarea ref={input} id="agent-question" maxLength={2000} rows={3} value={question} disabled={busy}
+      <textarea ref={input} id="agent-question" aria-label="Ask about this analysis" placeholder="Message Ask AI" maxLength={2000} rows={1} value={question} disabled={busy}
         onChange={event => setQuestion(event.target.value)}
         onKeyDown={event => { if (event.key === 'Enter' && !event.shiftKey) { event.preventDefault(); void ask(); } }}/>
-      <button type="button" className="primary" disabled={busy || !question.trim()} onClick={() => void ask()}>{busy ? 'Investigating…' : 'Ask agent'}</button>
+      <button type="button" aria-label="Send message" disabled={busy || !question.trim()} onClick={() => void ask()}>
+        <span aria-hidden="true">{busy ? '…' : '↑'}</span>
+      </button>
     </div>
   </section>}
   </div>;

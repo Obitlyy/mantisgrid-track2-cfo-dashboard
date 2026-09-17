@@ -21,14 +21,15 @@ function FloatingChat() {
 test('opens from a floating launcher and Escape closes back to the launcher', () => {
   render(<FloatingChat/>);
   const launcher = screen.getByRole('button', { name: 'Ask AI' });
-  expect(screen.queryByRole('dialog', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('dialog', { name: 'Ask AI' })).not.toBeInTheDocument();
 
   fireEvent.click(launcher);
-  expect(screen.getByRole('dialog', { name: 'Ask the cluster' })).toBeVisible();
+  expect(screen.getByRole('dialog', { name: 'Ask AI' })).toBeVisible();
   expect(screen.getByLabelText('Ask about this analysis')).toHaveFocus();
+  expect(screen.getByRole('button', { name: 'Send message' })).toBeDisabled();
 
   fireEvent.keyDown(window, { key: 'Escape' });
-  expect(screen.queryByRole('dialog', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('dialog', { name: 'Ask AI' })).not.toBeInTheDocument();
   expect(launcher).toHaveFocus();
 });
 
@@ -39,7 +40,7 @@ test('clicking outside closes the floating chat and restores launcher focus', ()
   fireEvent.click(launcher);
   fireEvent.mouseDown(document.body);
 
-  expect(screen.queryByRole('dialog', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('dialog', { name: 'Ask AI' })).not.toBeInTheDocument();
   expect(launcher).toHaveFocus();
 });
 
@@ -60,7 +61,7 @@ test('asks about the applied evaluation and shows receipts and token usage', asy
   render(<FloatingChat/>);
   fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
   fireEvent.change(screen.getByLabelText('Ask about this analysis'), { target: { value: 'What should we do first?' } });
-  fireEvent.click(screen.getByRole('button', { name: 'Ask agent' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
 
   expect(await screen.findByText('Start with the CPU migration pilot.')).toBeVisible();
   expect(screen.getByText(/get_decision_summary/)).toBeVisible();
@@ -76,8 +77,8 @@ test('chat failure leaves the panel available for retry', async () => {
   render(<FloatingChat/>);
   fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
   fireEvent.change(screen.getByLabelText('Ask about this analysis'), { target: { value: 'Explain the result' } });
-  fireEvent.click(screen.getByRole('button', { name: 'Ask agent' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Send message' }));
 
   expect(await screen.findByRole('alert')).toHaveTextContent('not configured');
-  expect(screen.getByRole('button', { name: 'Ask agent' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Send message' })).toBeEnabled();
 });

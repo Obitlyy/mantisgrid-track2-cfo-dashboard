@@ -97,7 +97,7 @@ test('the executive dashboard omits the agent panel', async () => {
   vi.stubGlobal('fetch', vi.fn(async (path: string) => new Response(JSON.stringify(path.endsWith('/config') ? config : path.includes('/investigations/') ? investigation : one), { headers: { 'Content-Type': 'application/json' } })));
   render(<App/>);
   await screen.findByRole('heading', { name: 'Where to cut' });
-  expect(screen.queryByRole('heading', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: 'Ask AI' })).not.toBeInTheDocument();
 });
 
 test('AI chat and decision evidence are mutually exclusive', async () => {
@@ -106,15 +106,15 @@ test('AI chat and decision evidence are mutually exclusive', async () => {
   await screen.findByRole('heading', { name: 'Where to cut' });
 
   fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
-  expect(screen.getByRole('dialog', { name: 'Ask the cluster' })).toBeVisible();
+  expect(screen.getByRole('dialog', { name: 'Ask AI' })).toBeVisible();
 
   fireEvent.click(screen.getAllByRole('button', { name: 'View evidence' })[0]);
-  expect(screen.queryByRole('dialog', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('dialog', { name: 'Ask AI' })).not.toBeInTheDocument();
   expect(screen.getByRole('dialog', { name: 'Decision evidence' })).toBeVisible();
 
   fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
   expect(screen.queryByRole('dialog', { name: 'Decision evidence' })).not.toBeInTheDocument();
-  expect(screen.getByRole('dialog', { name: 'Ask the cluster' })).toBeVisible();
+  expect(screen.getByRole('dialog', { name: 'Ask AI' })).toBeVisible();
 });
 
 test('the executive dashboard omits the historical sample and applied evaluation card', async () => {
