@@ -289,6 +289,165 @@
       "title": "Bounds",
       "type": "object"
     },
+    "ChatHistoryTurn": {
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "maxLength": 4000,
+          "minLength": 1,
+          "title": "Content",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "user",
+            "assistant"
+          ],
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "content"
+      ],
+      "title": "ChatHistoryTurn",
+      "type": "object"
+    },
+    "ChatRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "dataset_id": {
+          "title": "Dataset Id",
+          "type": "string"
+        },
+        "evaluation_request": {
+          "$ref": "#/$defs/EvaluationRequest"
+        },
+        "history": {
+          "items": {
+            "$ref": "#/$defs/ChatHistoryTurn"
+          },
+          "maxItems": 6,
+          "title": "History",
+          "type": "array"
+        },
+        "message": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Message",
+          "type": "string"
+        }
+      },
+      "required": [
+        "message",
+        "dataset_id",
+        "evaluation_request"
+      ],
+      "title": "ChatRequest",
+      "type": "object"
+    },
+    "ChatResponse": {
+      "additionalProperties": false,
+      "properties": {
+        "answer": {
+          "title": "Answer",
+          "type": "string"
+        },
+        "meta": {
+          "$ref": "#/$defs/Meta"
+        },
+        "model": {
+          "title": "Model",
+          "type": "string"
+        },
+        "tool_calls": {
+          "items": {
+            "$ref": "#/$defs/ChatToolReceipt"
+          },
+          "title": "Tool Calls",
+          "type": "array"
+        },
+        "usage": {
+          "$ref": "#/$defs/ChatUsage"
+        }
+      },
+      "required": [
+        "meta",
+        "answer",
+        "model",
+        "usage",
+        "tool_calls"
+      ],
+      "title": "ChatResponse",
+      "type": "object"
+    },
+    "ChatToolReceipt": {
+      "additionalProperties": false,
+      "properties": {
+        "arguments": {
+          "additionalProperties": true,
+          "title": "Arguments",
+          "type": "object"
+        },
+        "error": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error"
+        },
+        "status": {
+          "enum": [
+            "success",
+            "error"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "tool_name": {
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tool_name",
+        "arguments",
+        "status"
+      ],
+      "title": "ChatToolReceipt",
+      "type": "object"
+    },
+    "ChatUsage": {
+      "additionalProperties": false,
+      "properties": {
+        "completion_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Completion Tokens",
+          "type": "integer"
+        },
+        "prompt_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Prompt Tokens",
+          "type": "integer"
+        },
+        "total_tokens": {
+          "default": 0,
+          "minimum": 0,
+          "title": "Total Tokens",
+          "type": "integer"
+        }
+      },
+      "title": "ChatUsage",
+      "type": "object"
+    },
     "ClaimsRequest": {
       "additionalProperties": false,
       "properties": {

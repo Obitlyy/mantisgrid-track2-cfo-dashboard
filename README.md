@@ -22,7 +22,7 @@ These are historical capacity scenarios, not a quarterly forecast, calibrated pr
 - Node.js/npm for running dashboard tests outside Docker
 - `uv` for local Python test and CLI targets
 
-The default application uses deterministic analysis over the downloaded dataset. It does **not** require an LLM, a local model, or an LLM API key. The optional MCP audit also runs deterministically against the official local MCP server.
+The default application uses deterministic analysis over the downloaded dataset. Its decision cards do **not** require an LLM, a local model, or an LLM API key. An optional read-only chat agent uses DeepSeek tool calling to explain the applied scenario through the existing Decision API and official MantisGrid evidence interfaces; set `DEEPSEEK_API_KEY` in an ignored `.env` file to enable it. The MCP audit also runs deterministically against the official local MCP server.
 
 ## Prepare the official data
 

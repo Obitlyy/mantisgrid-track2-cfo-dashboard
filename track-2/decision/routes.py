@@ -9,7 +9,10 @@ from fastapi.routing import APIRoute
 
 from decision.bootstrap import EvaluationCache, latest_investigation, snapshot_from_app
 from decision.claims import build_claims
+from decision.chat_agent import run_chat
 from decision.contracts import (
+    ChatRequest,
+    ChatResponse,
     ClaimsRequest,
     ClaimsResponse,
     DecisionConfig,
@@ -24,6 +27,7 @@ from decision.contracts import (
     JobDetail,
     Meta,
 )
+from decision.deepseek_client import DeepSeekClient
 from decision.errors import DecisionError
 from decision.service import (
     _eid as evaluation_identity,
@@ -71,6 +75,10 @@ router = APIRouter(route_class=DecisionRoute)
 
 def get_snapshot(request: Request):
     return snapshot_from_app(request.app)
+
+
+def get_chat_client():
+    return DeepSeekClient.from_env()
 
 
 def _check(snapshot, dataset_id: str) -> None:
@@ -215,3 +223,18 @@ def investigation(
 def claims(payload: ClaimsRequest, request: Request, snapshot=Depends(get_snapshot)):
     result = _evaluate(request, snapshot, payload.evaluation_request)
     return ClaimsResponse(meta=result.meta, claims=build_claims(result, payload.team))
+
+
+@router.post(
+    "/chat",
+    response_model=ChatResponse,
+    responses={409: {"model": ErrorResponse}, 422: {"model": ErrorResponse},
+               502: {"model": ErrorResponse}, 503: {"model": ErrorResponse}},
+)
+def chat(
+    payload: ChatRequest,
+    request: Request,
+    snapshot=Depends(get_snapshot),
+    client=Depends(get_chat_client),
+):
+    return run_chat(snapshot, _audit(request, snapshot), payload, client)

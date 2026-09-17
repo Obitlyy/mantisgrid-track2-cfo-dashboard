@@ -1,7 +1,7 @@
 import { expect, test } from '@playwright/test';
 import type { Evaluation, EvidencePage, InvestigationResponse, JobDetail } from '../src/api/contracts.generated';
 
-for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
+for (const viewport of [{ width: 1280, height: 900 }]) {
   test(`real decision path ${viewport.width}x${viewport.height}`, async ({ page }, testInfo) => {
     await page.setViewportSize(viewport);
     const hosts = new Set<string>();

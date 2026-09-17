@@ -143,9 +143,37 @@ class ClaimsRequest(ContractModel):
         return value
 class ClaimsResponse(ContractModel):
     meta: Meta; claims: dict
+class ChatHistoryTurn(ContractModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=4000)
+class ChatRequest(ContractModel):
+    message: str = Field(min_length=1, max_length=2000)
+    dataset_id: str
+    evaluation_request: EvaluationRequest
+    history: list[ChatHistoryTurn] = Field(default_factory=list, max_length=6)
+    @field_validator("message")
+    @classmethod
+    def message_not_blank(cls, value: str):
+        if not value.strip(): raise ValueError("message must not be blank")
+        return value.strip()
+class ChatUsage(ContractModel):
+    prompt_tokens: int = Field(default=0, ge=0)
+    completion_tokens: int = Field(default=0, ge=0)
+    total_tokens: int = Field(default=0, ge=0)
+class ChatToolReceipt(ContractModel):
+    tool_name: str
+    arguments: dict
+    status: Literal["success", "error"]
+    error: str | None = None
+class ChatResponse(ContractModel):
+    meta: Meta
+    answer: str
+    model: str
+    usage: ChatUsage
+    tool_calls: list[ChatToolReceipt]
 class ErrorInfo(ContractModel):
     code: str; message: str; details: dict
 class ErrorResponse(ContractModel):
     error: ErrorInfo; schema_version: Literal["1.0.0"] = "1.0.0"
 
-NETWORK_MODELS = [Bounds, Estimate, Pricing, CpuMigrationParameters, IdleSessionParameters, EvaluationRequest, SampleWindow, Meta, OutcomeRow, Baseline, ExclusionCount, RiskResult, Pilot, ActionEvaluation, Portfolio, Evaluation, DecisionConfig, JobEvidenceRow, EvidencePage, GpuDetail, JobDetail, FindingDetail, ToolCallRecord, NodeAudit, Investigation, InvestigationResponse, DecisionHealth, ClaimsRequest, ClaimsResponse, ErrorInfo, ErrorResponse]
+NETWORK_MODELS = [Bounds, Estimate, Pricing, CpuMigrationParameters, IdleSessionParameters, EvaluationRequest, SampleWindow, Meta, OutcomeRow, Baseline, ExclusionCount, RiskResult, Pilot, ActionEvaluation, Portfolio, Evaluation, DecisionConfig, JobEvidenceRow, EvidencePage, GpuDetail, JobDetail, FindingDetail, ToolCallRecord, NodeAudit, Investigation, InvestigationResponse, DecisionHealth, ClaimsRequest, ClaimsResponse, ChatHistoryTurn, ChatRequest, ChatUsage, ChatToolReceipt, ChatResponse, ErrorInfo, ErrorResponse]

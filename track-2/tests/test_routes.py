@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
-from decision.routes import get_snapshot, router
+from decision.routes import get_chat_client, get_snapshot, router
 from factories import default_request, golden_snapshot
 
 
@@ -44,3 +44,30 @@ def test_job_route_returns_array_valued_node_failure_nodes():
         response = http.get("/v1/decision/jobs/101", params={"dataset_id": snapshot.dataset_id})
     assert response.status_code == 200
     assert response.json()["nodefail_nodes"] == ["node-b", "node-a"]
+
+
+def test_chat_route_uses_applied_scenario_and_returns_receipts():
+    class FakeChatClient:
+        model = "deepseek-fixture"
+        def complete(self, messages, tools):
+            return {
+                "choices": [{"message": {"role": "assistant", "content": "Use the CPU migration pilot first."}}],
+                "model": self.model,
+                "usage": {"prompt_tokens": 4, "completion_tokens": 6, "total_tokens": 10},
+            }
+
+    snapshot = golden_snapshot()
+    http = client()
+    http.app.dependency_overrides[get_chat_client] = FakeChatClient
+    body = {
+        "message": "What should we do first?",
+        "dataset_id": snapshot.dataset_id,
+        "evaluation_request": default_request().model_dump(mode="json"),
+        "history": [],
+    }
+    with http:
+        response = http.post("/v1/decision/chat", json=body)
+    assert response.status_code == 200
+    assert response.json()["answer"] == "Use the CPU migration pilot first."
+    assert response.json()["meta"]["dataset_id"] == snapshot.dataset_id
+    assert response.json()["usage"]["total_tokens"] == 10
