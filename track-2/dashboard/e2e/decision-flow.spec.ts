@@ -11,7 +11,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await page.goto('/');
     const initial = await (await first).json() as Evaluation;
     expect(initial.meta.data_origin).toBe('official_dataset');
-    for (const title of ['Where the money goes', 'Where to cut', 'If this decision is wrong']) await expect(page.getByRole('heading', { name: title })).toBeVisible();
+    for (const title of ['Where the money goes', 'Where to cut', 'If this decision is wrong']) await expect(page.getByRole('heading', { name: title, exact: true })).toBeVisible();
     await expect(page.locator('.scope-pill')).toContainText('Marginal scope');
     const evidenceResponse = page.waitForResponse(response => response.url().includes('/cpu_migration/evidence'));
     await page.getByTestId('evidence-cpu_migration').click();
@@ -39,13 +39,13 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await page.keyboard.press('Escape');
     await expect(page.getByTestId('evidence-cpu_migration')).toBeFocused();
     const idle = initial.actions.find(action => action.action_id === 'idle_session_reclaim')!;
-    await page.getByRole('button', { name: idle.title, exact: true }).click();
+    await page.locator('.action-ranking').getByRole('button', { name: idle.title, exact: true }).click();
     await expect(page.locator('.scope-pill')).toContainText('Standalone scope');
     const standaloneResponse = page.waitForResponse(response => response.url().includes('/idle_session_reclaim/evidence'));
     await page.getByTestId('evidence-idle_session_reclaim').click();
     expect((await (await standaloneResponse).json()).scope).toBe('standalone');
     await page.keyboard.press('Escape');
-    await page.getByRole('checkbox', { name: idle.title, exact: true }).check();
+    await page.locator('.checks').getByRole('button', { name: idle.title, exact: true }).click();
     await page.getByLabel('GPU reference price', { exact: true }).fill(String(initial.request.pricing.usd_per_gpu_hour + 1));
     await expect(page.getByText('Unapplied changes')).toBeVisible();
     await expect(page.locator('.scope-pill')).toContainText('Standalone scope');

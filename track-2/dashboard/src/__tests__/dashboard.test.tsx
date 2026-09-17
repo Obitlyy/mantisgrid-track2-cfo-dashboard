@@ -56,6 +56,7 @@ test('edits made while applying remain unapplied after the response arrives', as
 });
 test('cards expose standalone and marginal values and complete risk units', () => {
   render(<DecisionCards evaluation={one as Evaluation} inspected="cpu_migration" onInspect={() => {}} onEvidence={() => {}}/>);
+  for (const summary of screen.getAllByText('Expand analysis')) fireEvent.click(summary);
   expect(screen.getByText('Standalone recoverable capacity')).toBeVisible();
   expect(screen.getByText('Marginal recoverable capacity')).toBeVisible();
   expect(screen.getByText('Rerun GPU-hours')).toBeVisible();
@@ -63,6 +64,7 @@ test('cards expose standalone and marginal values and complete risk units', () =
 });
 test('idle not-applicable CPU cost remains zero while rerun and cash stay unknown', () => {
   render(<DecisionCards evaluation={one as Evaluation} inspected="idle_session_reclaim" onInspect={() => {}} onEvidence={() => {}}/>);
+  fireEvent.click(screen.getAllByText('Expand analysis')[2]);
   expect(screen.getByText('Additional CPU cost').parentElement).toHaveTextContent('$0.00');
   expect(screen.getByText('Additional CPU cost').parentElement).toHaveTextContent('Not applicable to this action.');
   expect(screen.getByText('Rerun GPU-hours').parentElement).toHaveTextContent('Unknown');
@@ -74,10 +76,13 @@ test('selection and inspection stay separate; unknown optional inputs cannot bec
   await screen.findByRole('heading', { name: 'Where to cut' });
   expect(screen.queryByText('Decision Room Map')).not.toBeInTheDocument();
   const idle = one.actions[1];
-  fireEvent.click(screen.getByRole('checkbox', { name: idle.title }));
+  const idleSelection = screen.getByRole('region', { name: 'Scenario inputs' }).querySelector(`[aria-label="Actions"]`)!.querySelectorAll('button')[1];
+  expect(idleSelection).toHaveAttribute('aria-pressed', 'false');
+  fireEvent.click(idleSelection);
+  expect(idleSelection).toHaveAttribute('aria-pressed', 'true');
   expect(screen.getByText('Unapplied changes')).toBeVisible();
   expect(screen.getByText(/Marginal scope/)).toHaveTextContent(one.actions[0].title);
-  fireEvent.click(screen.getByRole('button', { name: idle.title }));
+  fireEvent.click(document.querySelector(`.action-ranking [aria-label="${idle.title}"]`)!);
   expect(screen.getByText(/Standalone scope/)).toHaveTextContent(idle.title);
   fireEvent.click(screen.getByText('Advanced scenario assumptions'));
   fireEvent.click(screen.getByLabelText('CPU rerun fraction Unknown'));
@@ -86,4 +91,63 @@ test('selection and inspection stay separate; unknown optional inputs cannot bec
   await waitFor(() => expect(screen.getByRole('button', { name: 'Apply scenario' })).toBeEnabled());
   fireEvent.change(screen.getByLabelText('GPU reference price'), { target: { value: '' } });
   expect(screen.getByRole('button', { name: 'Apply scenario' })).toBeDisabled();
+});
+
+test('the executive dashboard omits the agent panel', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (path: string) => new Response(JSON.stringify(path.endsWith('/config') ? config : path.includes('/investigations/') ? investigation : one), { headers: { 'Content-Type': 'application/json' } })));
+  render(<App/>);
+  await screen.findByRole('heading', { name: 'Where to cut' });
+  expect(screen.queryByRole('heading', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+});
+
+test('AI chat and decision evidence are mutually exclusive', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (path: string) => new Response(JSON.stringify(path.endsWith('/config') ? config : path.includes('/investigations/') ? investigation : one), { headers: { 'Content-Type': 'application/json' } })));
+  render(<App/>);
+  await screen.findByRole('heading', { name: 'Where to cut' });
+
+  fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
+  expect(screen.getByRole('dialog', { name: 'Ask the cluster' })).toBeVisible();
+
+  fireEvent.click(screen.getAllByRole('button', { name: 'View evidence' })[0]);
+  expect(screen.queryByRole('dialog', { name: 'Ask the cluster' })).not.toBeInTheDocument();
+  expect(screen.getByRole('dialog', { name: 'Decision evidence' })).toBeVisible();
+
+  fireEvent.click(screen.getByRole('button', { name: 'Ask AI' }));
+  expect(screen.queryByRole('dialog', { name: 'Decision evidence' })).not.toBeInTheDocument();
+  expect(screen.getByRole('dialog', { name: 'Ask the cluster' })).toBeVisible();
+});
+
+test('the executive dashboard omits the historical sample and applied evaluation card', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (path: string) => new Response(JSON.stringify(path.endsWith('/config') ? config : path.includes('/investigations/') ? investigation : one), { headers: { 'Content-Type': 'application/json' } })));
+  render(<App/>);
+  await screen.findByRole('heading', { name: 'Where to cut' });
+  expect(screen.queryByText('Historical sample')).not.toBeInTheDocument();
+  expect(screen.queryByText('Applied evaluation')).not.toBeInTheDocument();
+});
+
+test('the executive headline is presented as one continuous desktop line', async () => {
+  vi.stubGlobal('fetch', vi.fn(async (path: string) => new Response(JSON.stringify(path.endsWith('/config') ? config : path.includes('/investigations/') ? investigation : one), { headers: { 'Content-Type': 'application/json' } })));
+  render(<App/>);
+  const heading = await screen.findByRole('heading', { name: 'Make the next GPU decision with evidence.' });
+  expect(heading).toHaveClass('hero-headline');
+  expect(heading.querySelector('br')).not.toBeInTheDocument();
+});
+
+test('outcome shares use solid grayscale tones instead of patterned bars', () => {
+  render(<DecisionCards evaluation={one as Evaluation} inspected="cpu_migration" onInspect={() => {}} onEvidence={() => {}}/>);
+  const bars = screen.getByLabelText('Outcome share chart').querySelectorAll('i');
+  expect(bars.length).toBeGreaterThan(0);
+  bars.forEach((bar, index) => {
+    expect(bar).toHaveAttribute('data-tone', String(index % 4));
+    expect(bar.className).not.toMatch(/pattern/);
+  });
+});
+
+test('decision cards keep dense analysis collapsed until requested', () => {
+  render(<DecisionCards evaluation={one as Evaluation} inspected="cpu_migration" onInspect={() => {}} onEvidence={() => {}}/>);
+  const details = screen.getAllByText('Expand analysis').map(summary => summary.closest('details'));
+  expect(details).toHaveLength(3);
+  for (const detail of details) expect(detail).not.toHaveAttribute('open');
+  fireEvent.click(screen.getAllByText('Expand analysis')[0]);
+  expect(details[0]).toHaveAttribute('open');
 });

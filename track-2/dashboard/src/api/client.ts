@@ -1,4 +1,4 @@
-import type { ActionId, ClaimsResponse, DecisionConfig, ErrorResponse, Evaluation, EvaluationRequest, EvidencePage, FindingDetail, InvestigationResponse, JobDetail } from './contracts.generated';
+import type { ActionId, ChatHistoryTurn, ChatRequest, ChatResponse, ClaimsResponse, DecisionConfig, ErrorResponse, Evaluation, EvaluationRequest, EvidencePage, FindingDetail, InvestigationResponse, JobDetail } from './contracts.generated';
 import { validResponse, type ResponseContract } from './validateResponse';
 
 export class ApiError extends Error {
@@ -52,5 +52,16 @@ export const getClaims = async (team: string, evaluation: Evaluation) => {
   const result = await requestJson<ClaimsResponse>('/v1/decision/claims', json({ team, evaluation_request: evaluation.request }), 'ClaimsResponse');
   const source = result.claims.analysis_provenance as Record<string, unknown> | undefined;
   provenance(result.meta.dataset_id === evaluation.meta.dataset_id && result.meta.evaluation_id === evaluation.meta.evaluation_id && source?.dataset_id === evaluation.meta.dataset_id && source?.evaluation_id === evaluation.meta.evaluation_id && sameValue(source?.evaluation_request, evaluation.request));
+  return result;
+};
+export const askAgent = async (message: string, evaluation: Evaluation, history: ChatHistoryTurn[] = [], signal?: AbortSignal) => {
+  const payload: ChatRequest = {
+    message,
+    dataset_id: evaluation.meta.dataset_id,
+    evaluation_request: evaluation.request,
+    history: history.slice(-6) as ChatRequest['history'],
+  };
+  const result = await requestJson<ChatResponse>('/v1/decision/chat', json(payload, signal), 'ChatResponse');
+  provenance(result.meta.dataset_id === evaluation.meta.dataset_id && result.meta.evaluation_id === evaluation.meta.evaluation_id);
   return result;
 };

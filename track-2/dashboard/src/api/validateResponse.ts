@@ -13,7 +13,7 @@ type Schema = {
   ge?: number;
   le?: number;
 };
-export type ResponseContract = 'DecisionConfig' | 'Evaluation' | 'EvidencePage' | 'JobDetail' | 'FindingDetail' | 'InvestigationResponse' | 'ClaimsResponse';
+export type ResponseContract = 'DecisionConfig' | 'Evaluation' | 'EvidencePage' | 'JobDetail' | 'FindingDetail' | 'InvestigationResponse' | 'ClaimsResponse' | 'ChatResponse';
 const definitions = contract.$defs as Record<string, Schema>;
 
 // The frozen shared schema uses refs, unions, primitive types, object fields,

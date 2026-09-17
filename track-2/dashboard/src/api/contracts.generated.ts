@@ -44,13 +44,28 @@ export type ReferenceCostUsd1 = number;
 export type High1 = number;
 export type Low1 = number;
 export type Point1 = number;
+export type Content = string;
+export type Role = "user" | "assistant";
+export type DatasetId = string;
 export type UsdPerCpuCoreHour = number | null;
 export type UsdPerGpuHour = number;
 export type SelectedActionIds = ("cpu_migration" | "idle_session_reclaim")[];
-export type Team = string;
+/**
+ * @maxItems 6
+ */
+export type History =
+  | []
+  | [ChatHistoryTurn]
+  | [ChatHistoryTurn, ChatHistoryTurn]
+  | [ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn]
+  | [ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn]
+  | [ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn]
+  | [ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn, ChatHistoryTurn];
+export type Message = string;
+export type Answer = string;
 export type AnalysisVersion = "track2-decision-v1";
 export type DataOrigin = "official_dataset" | "test_fixture";
-export type DatasetId = string;
+export type DatasetId1 = string;
 export type EvaluationId = string | null;
 export type CalendarIsMapped = true;
 export type EndOffsetSec = number;
@@ -59,14 +74,23 @@ export type MappedEndUtc = string;
 export type MappedStartUtc = string;
 export type StartOffsetSec = number;
 export type SchemaVersion = "1.0.0";
+export type Model = string;
+export type Error = string | null;
+export type Status = "success" | "error";
+export type ToolName = string;
+export type ToolCalls = ChatToolReceipt[];
+export type CompletionTokens = number;
+export type PromptTokens = number;
+export type TotalTokens = number;
+export type Team = string;
 export type ActionIds = ("cpu_migration" | "idle_session_reclaim")[];
 export type AllocationOrder = ("cpu_migration" | "idle_session_reclaim")[];
 export type AuditStatus = "not_run" | "running" | "completed" | "partial" | "failed";
-export type DatasetId1 = string | null;
+export type DatasetId2 = string | null;
 export type SchemaVersion1 = "1.0.0";
-export type Status = "ready" | "not_ready";
+export type Status1 = "ready" | "not_ready";
 export type Code = string;
-export type Message = string;
+export type Message1 = string;
 export type SchemaVersion2 = "1.0.0";
 export type Actions = ActionEvaluation[];
 export type AuditStatus1 = "not_run" | "running" | "completed" | "partial" | "failed";
@@ -120,7 +144,7 @@ export type QualityFlags = string[];
 export type SmutilizationPctAvg = number | null;
 export type SmutilizationPctMax = number | null;
 export type TotalexecutiontimeSec = number | null;
-export type DatasetId2 = string;
+export type DatasetId3 = string;
 export type EvidenceOrigin2 = "real_telemetry" | "synthetic_incident" | "mixed";
 export type FindingIds1 = string[];
 export type InvestigationId = "node_recommendation_audit";
@@ -139,22 +163,22 @@ export type Verdict = "inspect" | "no_drain" | "cannot_determine";
 export type Nodes1 = NodeAudit[];
 export type NominalDrainGpuHours24H = number;
 export type RecommendationId = string;
-export type Status1 = "not_run" | "running" | "completed" | "partial" | "failed";
+export type Status2 = "not_run" | "running" | "completed" | "partial" | "failed";
 export type Summary = string;
 export type TokenUsage = {
   [k: string]: number;
 } | null;
 export type CallId = string;
 export type DurationMs = number;
-export type Error = string | null;
+export type Error1 = string | null;
 export type Result = {
   [k: string]: unknown;
 } | null;
 export type Sequence = number;
 export type StartedAtUtc = string;
-export type Status2 = "success" | "error" | "timeout";
-export type ToolName = string;
-export type ToolCalls = ToolCallRecord[];
+export type Status3 = "success" | "error" | "timeout";
+export type ToolName1 = string;
+export type ToolCalls1 = ToolCallRecord[];
 export type Verdict1 = "accept" | "revise" | "reject" | "cannot_determine";
 export type ArrayJobId = string | null;
 export type Attempts = number;
@@ -285,11 +309,21 @@ export interface Bounds {
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
- * via the `definition` "ClaimsRequest".
+ * via the `definition` "ChatHistoryTurn".
  */
-export interface ClaimsRequest {
+export interface ChatHistoryTurn {
+  content: Content;
+  role: Role;
+}
+/**
+ * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
+ * via the `definition` "ChatRequest".
+ */
+export interface ChatRequest {
+  dataset_id: DatasetId;
   evaluation_request: EvaluationRequest;
-  team: Team;
+  history?: History;
+  message: Message;
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
@@ -330,14 +364,14 @@ export interface Pricing {
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
- * via the `definition` "ClaimsResponse".
+ * via the `definition` "ChatResponse".
  */
-export interface ClaimsResponse {
-  claims: Claims;
+export interface ChatResponse {
+  answer: Answer;
   meta: Meta;
-}
-export interface Claims {
-  [k: string]: unknown;
+  model: Model;
+  tool_calls: ToolCalls;
+  usage: ChatUsage;
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
@@ -346,7 +380,7 @@ export interface Claims {
 export interface Meta {
   analysis_version?: AnalysisVersion;
   data_origin: DataOrigin;
-  dataset_id: DatasetId;
+  dataset_id: DatasetId1;
   evaluation_id: EvaluationId;
   sample_window: SampleWindow;
   schema_version?: SchemaVersion;
@@ -365,6 +399,47 @@ export interface SampleWindow {
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
+ * via the `definition` "ChatToolReceipt".
+ */
+export interface ChatToolReceipt {
+  arguments: Arguments;
+  error?: Error;
+  status: Status;
+  tool_name: ToolName;
+}
+export interface Arguments {
+  [k: string]: unknown;
+}
+/**
+ * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
+ * via the `definition` "ChatUsage".
+ */
+export interface ChatUsage {
+  completion_tokens?: CompletionTokens;
+  prompt_tokens?: PromptTokens;
+  total_tokens?: TotalTokens;
+}
+/**
+ * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
+ * via the `definition` "ClaimsRequest".
+ */
+export interface ClaimsRequest {
+  evaluation_request: EvaluationRequest;
+  team: Team;
+}
+/**
+ * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
+ * via the `definition` "ClaimsResponse".
+ */
+export interface ClaimsResponse {
+  claims: Claims;
+  meta: Meta;
+}
+export interface Claims {
+  [k: string]: unknown;
+}
+/**
+ * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
  * via the `definition` "DecisionConfig".
  */
 export interface DecisionConfig {
@@ -379,9 +454,9 @@ export interface DecisionConfig {
  */
 export interface DecisionHealth {
   audit_status: AuditStatus;
-  dataset_id: DatasetId1;
+  dataset_id: DatasetId2;
   schema_version?: SchemaVersion1;
-  status: Status;
+  status: Status1;
 }
 /**
  * This interface was referenced by `Track2DecisionContracts`'s JSON-Schema
@@ -390,7 +465,7 @@ export interface DecisionHealth {
 export interface ErrorInfo {
   code: Code;
   details: Details;
-  message: Message;
+  message: Message1;
 }
 export interface Details {
   [k: string]: unknown;
@@ -507,7 +582,7 @@ export interface GpuDetail {
  * via the `definition` "Investigation".
  */
 export interface Investigation {
-  dataset_id: DatasetId2;
+  dataset_id: DatasetId3;
   evidence_origin: EvidenceOrigin2;
   finding_ids: FindingIds1;
   investigation_id: InvestigationId;
@@ -516,10 +591,10 @@ export interface Investigation {
   nodes: Nodes1;
   nominal_drain_gpu_hours_24h: NominalDrainGpuHours24H;
   recommendation_id: RecommendationId;
-  status: Status1;
+  status: Status2;
   summary: Summary;
   token_usage: TokenUsage;
-  tool_calls: ToolCalls;
+  tool_calls: ToolCalls1;
   verdict: Verdict1;
 }
 /**
@@ -543,17 +618,17 @@ export interface NodeAudit {
  * via the `definition` "ToolCallRecord".
  */
 export interface ToolCallRecord {
-  arguments: Arguments;
+  arguments: Arguments1;
   call_id: CallId;
   duration_ms: DurationMs;
-  error: Error;
+  error: Error1;
   result: Result;
   sequence: Sequence;
   started_at_utc: StartedAtUtc;
-  status: Status2;
-  tool_name: ToolName;
+  status: Status3;
+  tool_name: ToolName1;
 }
-export interface Arguments {
+export interface Arguments1 {
   [k: string]: unknown;
 }
 /**
