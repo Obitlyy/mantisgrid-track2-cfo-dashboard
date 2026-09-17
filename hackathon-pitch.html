@@ -3,273 +3,114 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>GPU Budget Decision | Hackathon Pitch</title>
+  <title>GPU Budget Decision | Two-slide pitch</title>
   <style>
-    :root {
-      --ink: #f5f7f2;
-      --muted: #9ca69d;
-      --green: #b9ff45;
-      --cyan: #4de6cf;
-      --orange: #ffb15a;
-      --red: #ff6f6a;
-      --panel: rgba(255,255,255,.055);
-      --line: rgba(255,255,255,.16);
-      --bg: #090d0c;
-    }
-    * { box-sizing: border-box; }
-    html, body { margin: 0; width: 100%; height: 100%; overflow: hidden; background: var(--bg); color: var(--ink); }
-    body { display: grid; place-items: center; font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    button { font: inherit; }
-    .deck { position: relative; width: 1600px; height: 900px; flex: 0 0 auto; transform: scale(var(--deck-scale, 1)); transform-origin: center center; }
-    .slide {
-      display: none;
-      position: absolute;
-      inset: 0;
-      width: 1600px;
-      height: 900px;
-      padding: 72px 112px;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 82% 14%, rgba(77,230,207,.12), transparent 32%),
-        radial-gradient(circle at 8% 92%, rgba(185,255,69,.08), transparent 34%),
-        #090d0c;
-    }
-    .slide.active { display: flex; flex-direction: column; animation: enter .45s ease both; }
-    @keyframes enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-    .slide::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      opacity: .22;
-      background-image: linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-      background-size: 44px 44px;
-    }
-    .slide > * { position: relative; z-index: 1; }
-    .eyebrow { margin: 0 0 16px; color: var(--green); font-size: 18px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
-    h1, h2, h3, p { margin-top: 0; }
-    h1 { max-width: 1120px; margin-bottom: 26px; font-size: 118px; line-height: .92; letter-spacing: -.065em; }
-    h2 { max-width: 1220px; margin-bottom: 24px; font-size: 76px; line-height: .98; letter-spacing: -.05em; }
-    h3 { margin-bottom: 10px; font-size: 31px; letter-spacing: -.025em; }
-    .lead { max-width: 920px; color: #d7ddd7; font-size: 30px; line-height: 1.35; }
-    .accent { color: var(--green); }
-    .cyan { color: var(--cyan); }
-    .orange { color: var(--orange); }
-    .muted { color: var(--muted); }
-    .tag { display: inline-block; padding: 8px 13px; border: 1px solid var(--line); border-radius: 999px; color: #dfe6df; font-size: 16px; }
-    .footer { position: absolute; left: 112px; right: 112px; bottom: 28px; display: flex; justify-content: space-between; align-items: center; color: #758079; font-size: 13px; letter-spacing: .05em; }
-    .cover { justify-content: center; }
-    .cover .lead { max-width: 760px; }
-    .cover .meta { display: flex; gap: 12px; margin-top: 26px; }
-    .hero-num { color: var(--green); font-size: 210px; font-weight: 850; line-height: .8; letter-spacing: -.075em; }
-    .hero-label { max-width: 820px; margin-top: 28px; font-size: 48px; line-height: 1.16; letter-spacing: -.03em; }
-    .two-col { display: grid; grid-template-columns: 1.02fr .98fr; gap: clamp(32px, 6vw, 96px); align-items: center; flex: 1; }
-    .metric-stack { display: grid; gap: 12px; }
-    .metric-row { padding: 18px 0; border-top: 1px solid var(--line); }
-    .metric-row strong { display: block; font-size: 46px; letter-spacing: -.045em; }
-    .metric-row span { color: var(--muted); font-size: 19px; }
-    .statement { max-width: 930px; margin: auto 0; font-size: clamp(34px, 5.1vw, 78px); line-height: 1.08; letter-spacing: -.045em; }
-    .analysis-method { display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr); gap: 76px; align-items: center; flex: 1; }
-    .formula { padding: 34px 0; border-top: 2px solid var(--green); border-bottom: 1px solid var(--line); }
-    .formula strong { display: block; color: var(--green); font-size: 58px; line-height: 1.04; letter-spacing: -.045em; }
-    .formula span { display: block; margin-top: 14px; color: #c9d0ca; font-size: 22px; line-height: 1.45; }
-    .method-steps { display: grid; width: 520px; min-width: 0; gap: 0; padding-right: 48px; counter-reset: step; }
-    .method-steps div { position: relative; min-width: 0; padding: 19px 0 19px 72px; border-bottom: 1px solid var(--line); counter-increment: step; }
-    .method-steps div::before { content: "0" counter(step); position: absolute; left: 0; top: 20px; color: var(--cyan); font-weight: 800; letter-spacing: .12em; }
-    .method-steps b { display: block; font-size: 27px; }
-    .method-steps span { display: block; min-width: 0; color: var(--muted); font-size: 17px; line-height: 1.4; overflow-wrap: anywhere; }
-    .method-note { margin-top: 18px; color: var(--orange); font-size: 18px; }
-    .experience { display: grid; grid-template-columns: 430px minmax(0, 1fr); gap: 88px; align-items: center; flex: 1; }
-    .experience-hero strong { display: block; color: var(--green); font-size: 160px; line-height: .82; letter-spacing: -.075em; }
-    .experience-hero p { margin-top: 24px; color: #d5ddd6; font-size: 30px; line-height: 1.25; }
-    .experience-flow { position: relative; width: 760px; min-width: 0; padding: 0 48px 0 46px; border-left: 2px solid rgba(185,255,69,.5); }
-    .experience-flow div { padding: 0 0 16px 0; margin-bottom: 12px; border-bottom: 1px solid var(--line); }
-    .experience-flow b { display: block; color: var(--cyan); font-size: 30px; }
-    .experience-flow span { display: block; color: var(--muted); font-size: 17px; line-height: 1.4; overflow-wrap: anywhere; }
-    .actions { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(22px, 4vw, 64px); flex: 1; align-items: center; }
-    .action { padding: 30px 0; border-top: 2px solid var(--line); }
-    .action:first-child { border-color: var(--green); }
-    .action:last-child { border-color: var(--cyan); }
-    .action .number { margin: 12px 0 4px; font-size: 96px; font-weight: 850; line-height: .92; letter-spacing: -.06em; }
-    .action p { max-width: 560px; color: #bcc5bd; font-size: 20px; line-height: 1.4; }
-    .action small { color: var(--muted); font-size: 16px; }
-    .impact { display: grid; grid-template-columns: 1.1fr .9fr; gap: clamp(36px, 6vw, 96px); align-items: end; flex: 1; }
-    .impact-main strong { display: block; color: var(--green); font-size: 168px; line-height: .82; letter-spacing: -.075em; }
-    .impact-main p { max-width: 700px; margin-top: 26px; font-size: 32px; line-height: 1.3; }
-    .range { padding-left: 30px; border-left: 1px solid var(--line); }
-    .range div { margin-bottom: 28px; }
-    .range b { display: block; font-size: 52px; letter-spacing: -.045em; }
-    .range span { color: var(--muted); font-size: 18px; }
-    .closing { justify-content: center; }
-    .closing h2 { max-width: 980px; }
-    .closing .lead { max-width: 830px; }
-    .controls { position: fixed; z-index: 20; top: 18px; right: 18px; display: flex; gap: 8px; }
-    .controls button { width: 40px; height: 40px; border: 1px solid var(--line); border-radius: 50%; background: rgba(9,13,12,.8); color: var(--ink); cursor: pointer; }
-    .controls button:hover { border-color: var(--green); color: var(--green); }
-    .progress { position: fixed; z-index: 20; left: 0; bottom: 0; height: 3px; background: var(--green); transition: width .25s ease; }
-    .notes-panel { display: none; position: fixed; z-index: 30; left: 4vw; right: 4vw; bottom: 5vh; max-height: 38vh; padding: 24px 28px; overflow: auto; border: 1px solid var(--line); background: rgba(4,7,6,.96); box-shadow: 0 30px 80px rgba(0,0,0,.5); }
-    .notes-panel.visible { display: block; }
-    .notes-panel strong { color: var(--green); }
-    .speaker-note { display: none; }
-    @media print {
-      html, body { height: auto; overflow: visible; }
-      body { display: block; }
-      .deck { width: 13.333in; height: auto; transform: none !important; }
-      .slide, .slide.active { display: flex; position: relative; width: 13.333in; height: 7.5in; break-after: page; }
-      .controls, .progress, .notes-panel { display: none !important; }
-    }
+    :root { --ink:#f5f7f2; --muted:#9ca69d; --green:#b9ff45; --cyan:#4de6cf; --orange:#ffb15a; --line:rgba(255,255,255,.16); --bg:#090d0c; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--ink); }
+    body { display:grid; place-items:center; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    button { font:inherit; }
+    .deck { position:relative; width:1600px; height:900px; flex:0 0 auto; transform:scale(var(--deck-scale,1)); transform-origin:center; }
+    .slide { display:none; position:absolute; inset:0; width:1600px; height:900px; padding:70px 112px; overflow:hidden; background:radial-gradient(circle at 84% 12%,rgba(77,230,207,.12),transparent 33%),radial-gradient(circle at 6% 96%,rgba(185,255,69,.08),transparent 34%),var(--bg); }
+    .slide.active { display:flex; flex-direction:column; animation:enter .4s ease both; }
+    @keyframes enter { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .slide::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.2; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:44px 44px; }
+    .slide>* { position:relative; z-index:1; }
+    .eyebrow { margin:0 0 16px; color:var(--green); font-size:18px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { max-width:1120px; margin-bottom:26px; font-size:118px; line-height:.92; letter-spacing:-.065em; }
+    h2 { max-width:1240px; margin-bottom:22px; font-size:72px; line-height:.98; letter-spacing:-.05em; }
+    h3 { margin-bottom:8px; font-size:28px; letter-spacing:-.025em; }
+    .lead { max-width:820px; color:#d7ddd7; font-size:29px; line-height:1.35; }
+    .accent { color:var(--green); } .cyan { color:var(--cyan); } .orange { color:var(--orange); }
+    .tag { display:inline-block; padding:8px 13px; border:1px solid var(--line); border-radius:999px; color:#dfe6df; font-size:16px; }
+    .footer { position:absolute; left:112px; right:112px; bottom:28px; display:flex; justify-content:space-between; color:#758079; font-size:13px; letter-spacing:.05em; }
+    .cover { justify-content:center; }
+    .cover .meta { display:flex; gap:12px; margin-top:26px; }
+    .summary-grid { display:grid; grid-template-columns:1.02fr .98fr; gap:82px; align-items:center; flex:1; }
+    .signal { color:var(--green); font-size:210px; font-weight:850; line-height:.8; letter-spacing:-.075em; }
+    .signal-label { max-width:680px; margin-top:30px; font-size:46px; line-height:1.14; letter-spacing:-.035em; }
+    .facts { display:grid; gap:10px; }
+    .fact { padding:13px 0; border-top:1px solid var(--line); }
+    .fact strong { display:block; font-size:40px; line-height:1.05; letter-spacing:-.045em; }
+    .fact span { color:var(--muted); font-size:19px; }
+    .principles { display:grid; grid-template-columns:1.03fr .97fr; gap:72px; align-items:center; flex:1; }
+    .equation { padding:22px 0; border-top:2px solid var(--green); border-bottom:1px solid var(--line); }
+    .equation strong { display:block; color:var(--green); font-size:46px; line-height:1.03; letter-spacing:-.045em; }
+    .equation span { display:block; margin-top:10px; color:#c9d0ca; font-size:19px; line-height:1.35; }
+    .principle-list { display:grid; gap:0; min-width:0; padding-right:48px; }
+    .principle { padding:15px 0 15px 68px; border-bottom:1px solid var(--line); }
+    .principle b { display:block; color:var(--cyan); font-size:26px; }
+    .principle span { display:block; color:var(--muted); font-size:17px; line-height:1.35; overflow-wrap:anywhere; }
+    .product-strip { display:flex; gap:10px; margin-top:14px; color:#d3d9d3; font-size:15px; }
+    .product-strip span { padding:10px 13px; border:1px solid var(--line); }
+    .decision-grid { display:grid; grid-template-columns:1fr 1fr; gap:58px; flex:1; align-items:center; }
+    .action { padding:27px 0; border-top:2px solid var(--line); }
+    .action:first-child { border-color:var(--green); } .action:last-child { border-color:var(--cyan); }
+    .action .number { margin:12px 0 3px; font-size:92px; font-weight:850; line-height:.9; letter-spacing:-.06em; }
+    .action small { color:var(--muted); font-size:16px; }
+    .action p { max-width:580px; color:#c2cbc2; font-size:20px; line-height:1.35; }
+    .result { display:grid; grid-template-columns:1.03fr .97fr; gap:72px; align-items:end; flex:1; }
+    .result strong { display:block; color:var(--green); font-size:164px; line-height:.8; letter-spacing:-.075em; }
+    .result p { max-width:700px; margin-top:25px; font-size:31px; line-height:1.28; }
+    .ranges { padding-left:30px; border-left:1px solid var(--line); }
+    .range { margin-bottom:24px; } .range b { display:block; font-size:49px; letter-spacing:-.045em; } .range span { color:var(--muted); font-size:18px; }
+    .close-line { max-width:1120px; margin-top:20px; font-size:47px; line-height:1.02; letter-spacing:-.045em; }
+    .controls { position:fixed; z-index:20; top:18px; right:18px; display:flex; gap:8px; }
+    .controls button { width:40px; height:40px; border:1px solid var(--line); border-radius:50%; background:rgba(9,13,12,.82); color:var(--ink); cursor:pointer; }
+    .controls button:hover { border-color:var(--green); color:var(--green); }
+    .progress { position:fixed; z-index:20; left:0; bottom:0; height:3px; background:var(--green); transition:width .25s ease; }
+    .notes-panel { display:none; position:fixed; z-index:30; left:4vw; right:4vw; bottom:5vh; max-height:38vh; padding:24px 28px; overflow:auto; border:1px solid var(--line); background:rgba(4,7,6,.96); box-shadow:0 30px 80px rgba(0,0,0,.5); }
+    .notes-panel.visible { display:block; } .notes-panel strong { color:var(--green); } .speaker-note { display:none; }
+    @media print { html,body{height:auto;overflow:visible} body{display:block} .deck{width:13.333in;height:auto;transform:none!important} .slide,.slide.active{display:flex;position:relative;width:13.333in;height:7.5in;break-after:page} .controls,.progress,.notes-panel{display:none!important} }
   </style>
 </head>
 <body>
-  <main class="deck" aria-label="GPU Budget Decision hackathon pitch">
-    <section class="slide cover active">
-      <p class="eyebrow">MantisGrid Hackathon 2026 · Track 2</p>
-      <h1>GPU cuts<br><span class="accent">without guesswork</span></h1>
-      <p class="lead">A decision system that shows where to cut, what could go wrong, and the evidence behind every recommendation.</p>
-      <div class="meta"><span class="tag">4-minute pitch</span><span class="tag">Historical capacity analysis</span></div>
-      <div class="footer"><span>GPU Budget Decision</span><span>01 / 06</span></div>
-      <div class="speaker-note">Imagine you are the CFO. You have been asked to cut GPU spend by 20 percent next quarter without slowing research. You need an answer in thirty seconds, but the team implementing it needs proof. A utilization dashboard cannot make that decision for you. We built GPU Budget Decision, a system that identifies bounded actions, exposes the downside, and traces every recommendation back to evidence.</div>
-    </section>
-
+  <main class="deck" aria-label="GPU Budget Decision two-slide pitch">
     <section class="slide">
-      <p class="eyebrow">The trap</p>
-      <div class="two-col">
+      <p class="eyebrow">GPU Budget Decision · MantisGrid Hackathon 2026</p>
+      <h2>GPU cuts <span class="accent">without guesswork</span></h2>
+      <p class="lead">From a noisy utilization signal to a defensible decision.</p>
+      <div class="summary-grid">
         <div>
-          <div class="hero-num">83%</div>
-          <p class="hero-label">of allocated GPU compute did not appear in completed work</p>
+          <div class="signal">83%</div>
+          <p class="signal-label">of allocated GPU compute did not appear in completed work</p>
+          <p class="lead">A starting signal, not a savings claim.</p>
         </div>
-        <div class="metric-stack">
-          <div class="metric-row"><strong>74,849 jobs</strong><span>Four months of real workload telemetry</span></div>
-          <div class="metric-row"><strong>594,004 GPU-hours</strong><span>Measured physical GPU duration</span></div>
-          <div class="metric-row"><strong>$1.485M</strong><span>Reference-priced usage at $2.50 per GPU-hour</span></div>
-          <p class="lead">That 83% is a starting signal. It is <span class="orange">not a savings claim</span>.</p>
+        <div class="facts">
+          <div class="fact"><strong>74,849 jobs</strong><span>Four months of real workload telemetry</span></div>
+          <div class="fact"><strong>594,004 GPU-hours</strong><span>Measured physical GPU duration</span></div>
+          <div class="fact"><strong>$1.485M</strong><span>Reference-priced usage at $2.50 per GPU-hour</span></div>
+          <div class="equation"><strong>Candidate capacity × recovery scenario</strong><span>Start at 96,893 physical GPU records. Filter strictly. Cap duration by walltime. Deduplicate whole jobs. Keep modeled recovery separate from measured usage.</span></div>
+          <div class="product-strip"><span>Executive View</span><span>Facility Tour</span><span>Evidence Drawer</span><span>Read-only AI</span></div>
         </div>
       </div>
-      <div class="footer"><span>Real telemetry · Bounded historical sample</span><span>02 / 06</span></div>
-      <div class="speaker-note">The dataset covers 74,849 jobs and 594,004 measured GPU-hours. At a reference price of two dollars and fifty cents per GPU-hour, that represents 1.485 million dollars of usage. The headline signal is striking: 83 percent of allocated compute did not appear in completed work. But cancelled or low-utilization work is not automatically waste. Treating the whole 83 percent as savings would be an expensive mistake.</div>
+      <div class="footer"><span>Analysis engine + frontend in one decision path</span><span>01 / 02</span></div>
+      <div class="speaker-note">Imagine you are the CFO. You have been asked to cut GPU spend without slowing research. You need an answer in thirty seconds, but the team implementing it needs proof. Our signal is 83 percent of allocated compute not appearing in completed work, across 74,849 jobs and 594,004 measured GPU-hours. At a reference price of two dollars and fifty cents, that is 1.485 million dollars of usage. But that signal is not a savings claim. The analysis starts at physical GPU grain, applies strict predicates for outcome, utilization, attempts, walltime, and record completeness, caps duration by job walltime, and deduplicates whole jobs. Recovery is modeled as candidate capacity multiplied by an explicit scenario fraction. On the frontend, the same decision is available in an Executive View, a Facility Tour, an Evidence Drawer, and a read-only AI layer.</div>
     </section>
 
     <section class="slide">
-      <p class="eyebrow">Analysis engine</p>
-      <h2>Recoverable capacity comes from strict evidence filters</h2>
-      <div class="analysis-method">
-        <div>
-          <div class="formula">
-            <strong>Candidate capacity × recovery scenario</strong>
-            <span>Every estimate starts at the physical GPU record, respects job walltime, and keeps measured usage separate from modeled recovery.</span>
-          </div>
-          <p class="method-note">Missing rerun, delay, CPU, or billing inputs remain unknown. They never become zero.</p>
-        </div>
-        <div class="method-steps">
-          <div><b>Physical GPU grain</b><span>96,893 device records preserve duration and utilization evidence.</span></div>
-          <div><b>Strict candidate predicates</b><span>Outcome, SM activity, attempts, walltime, and record completeness must agree.</span></div>
-          <div><b>Conservative caps</b><span>Per-GPU duration cannot exceed job walltime. Idle recovery starts only after four hours.</span></div>
-          <div><b>Whole-job deduplication</b><span>Overlapping actions receive each job once, preventing double counting.</span></div>
-        </div>
+      <p class="eyebrow">Evidence-backed action</p>
+      <h2>Two pilots. One allocation. A measurable next step.</h2>
+      <div class="decision-grid">
+        <article class="action"><span class="tag">Platform engineering</span><h3>Move zero-compute completed jobs to CPU</h3><div class="number accent">463</div><small>eligible jobs · 11,986 capped candidate GPU-hours</small><p>Output correctness and CPU queue capacity gate the pilot. Stop and restore the original request if the envelope breaks.</p></article>
+        <article class="action"><span class="tag">Research platform operations</span><h3>Reclaim long, low-activity sessions</h3><div class="number cyan">1,794</div><small>eligible jobs · 92,158 capped candidate GPU-hours</small><p>Notify first, allow a grace period, and protect valid work. Idle time is modeled conservatively because no idle time series exists.</p></article>
       </div>
-      <div class="footer"><span>Measured baseline and modeled recovery stay separate</span><span>03 / 06</span></div>
-      <div class="speaker-note">The analysis begins at the physical GPU record, not an average utilization dashboard. We apply strict predicates for outcome, SM activity, attempts, walltime, and evidence completeness. Candidate duration is capped so a device cannot contribute more time than its job actually ran. Recovery is then modeled as a scenario fraction, with a zero low bound because no savings have been observed yet. Finally, whole-job allocation removes overlap between actions. Missing rerun, delay, CPU, or billing inputs remain unknown rather than quietly becoming zero.</div>
-    </section>
-
-    <section class="slide">
-      <p class="eyebrow">Frontend innovation</p>
-      <h2>One model serves executives, operators, and investigators</h2>
-      <div class="experience">
-        <div class="experience-hero">
-          <strong>30s</strong>
-          <p>to understand the decision, then one click to inspect the evidence</p>
-        </div>
-        <div class="experience-flow">
-          <div><b>Executive View</b><span>Spend, opportunity, target gap, and downside share one screen.</span></div>
-          <div><b>Facility Tour</b><span>A spatial cluster view turns abstract recommendations into operational context.</span></div>
-          <div><b>Evidence Drawer</b><span>Each candidate opens its detector, job record, and physical GPU rows without leaving the decision.</span></div>
-          <div><b>Controlled AI</b><span>A read-only agent explains the applied evaluation and official MantisGrid evidence. It cannot operate the scheduler.</span></div>
-        </div>
-      </div>
-      <div class="footer"><span>One evaluation ID across cards, evidence, chat, and export</span><span>04 / 06</span></div>
-      <div class="speaker-note">The frontend is designed for two levels of trust. An executive gets the baseline, opportunity, target gap, and downside in one thirty-second view. An operator can switch into a Facility Tour that places the decision in cluster context. One click opens the Evidence Drawer, keeping the recommendation beside the detector, job, and physical GPU rows. A controlled, read-only AI agent can answer questions about the applied evaluation and official MantisGrid evidence. The same evaluation ID connects every card, drawer, chat answer, and exported claim.</div>
-    </section>
-
-    <section class="slide">
-      <p class="eyebrow">Two bounded pilots</p>
-      <h2>Specific actions with owners and rollback</h2>
-      <div class="actions">
-        <article class="action">
-          <span class="tag">Owner · Platform engineering</span>
-          <h3>Move zero-compute completed jobs to CPU</h3>
-          <div class="number accent">463</div>
-          <small>eligible jobs · 11,986 capped candidate GPU-hours</small>
-          <p>Only completed, single-attempt jobs with consistent zero SM compute qualify. Output correctness and CPU queue capacity gate the pilot.</p>
-        </article>
-        <article class="action">
-          <span class="tag">Owner · Research platform operations</span>
-          <h3>Reclaim long, low-activity sessions</h3>
-          <div class="number cyan">1,794</div>
-          <small>eligible jobs · 92,158 capped candidate GPU-hours</small>
-          <p>Notify first, allow a grace period, and protect valid work. The estimate uses a capped proxy because the data has no idle time series.</p>
-        </article>
-      </div>
-      <div class="footer"><span>109 overlap jobs assigned once · CPU first</span><span>05 / 06</span></div>
-      <div class="speaker-note">We found two bounded pilots. First, Platform Engineering can move 463 completed jobs with consistently zero SM compute to CPU, after output and queue-capacity checks. Second, Research Platform Operations can reclaim 1,794 long, low-activity sessions after notice and a grace period. The actions overlap on 109 jobs, so the portfolio assigns each job once. Requeued jobs are excluded from recoverable capacity. Both pilots include stop conditions and rollback to the original queue and resource request.</div>
-    </section>
-
-    <section class="slide closing">
-      <p class="eyebrow">The decision</p>
-      <div class="impact">
-        <div class="impact-main">
-          <strong>2,148</strong>
-          <p>unique jobs in a guarded, evidence-linked pilot portfolio</p>
-        </div>
-        <div class="range">
-          <div><b>0–56,586 GPU-h</b><span>Scenario recovery range · 28,293 point</span></div>
-          <div><b>$0–$141,464</b><span>Reference-price equivalent · $70,732 point</span></div>
-          <div><b class="orange">9.53% max</b><span>Still below the 20% comparison, so we do not overclaim</span></div>
-        </div>
-      </div>
-      <h2>Start with a reversible pilot. Scale only after the evidence improves.</h2>
-      <div class="footer"><span>GPU Budget Decision</span><span>06 / 06</span></div>
-      <div class="speaker-note">The portfolio covers 2,148 unique jobs. Its scenario range reaches 56,586 GPU-hours, or about 141,000 dollars at the reference price, with a point scenario of 70,732 dollars. Even the high case is only 9.53 percent of historical sample hours, below the 20 percent comparison. We do not hide that gap. That honesty is the point. We give leaders a reversible first move, give operators the evidence, and scale only after the pilot measures the real outcome. Thank you.</div>
+      <div class="result"><div><strong>2,148</strong><p>unique jobs in the deduplicated portfolio</p></div><div class="ranges"><div class="range"><b>0–56,586 GPU-h</b><span>Scenario recovery range · 28,293 point</span></div><div class="range"><b>$0–$141,464</b><span>Reference-price equivalent · $70,732 point</span></div><div class="range"><b class="orange">9.53% max</b><span>Below the 20% comparison, so we do not overclaim</span></div></div></div>
+      <div class="footer"><span>Start reversible · Inspect the evidence · Scale after outcome</span><span>02 / 02</span></div>
+      <div class="speaker-note">The result is two bounded pilots. Platform Engineering gets 463 completed, zero-compute jobs that can be checked for CPU migration. Research Platform Operations gets 1,794 long, low-activity sessions for a notified, grace-period reclaim. The actions overlap on 109 jobs, so the portfolio assigns each job once. That yields 2,148 unique jobs, with a scenario range of zero to 56,586 GPU-hours and a reference-price equivalent of zero to 141,464 dollars. Even the high case is only 9.53 percent of the historical sample, below the 20 percent comparison. We do not overclaim. We start reversible, inspect the evidence, and scale only after the pilot measures the outcome.</div>
     </section>
   </main>
-
-  <div class="controls" aria-label="Slide controls">
-    <button id="prev" aria-label="Previous slide">←</button>
-    <button id="notes" aria-label="Toggle speaker notes">N</button>
-    <button id="next" aria-label="Next slide">→</button>
-  </div>
+  <div class="controls" aria-label="Slide controls"><button id="prev" aria-label="Previous slide">←</button><button id="notes" aria-label="Toggle speaker notes">N</button><button id="next" aria-label="Next slide">→</button></div>
   <div class="progress" aria-hidden="true"></div>
   <aside class="notes-panel" aria-live="polite"><strong>Speaker notes</strong><p></p></aside>
   <script>
-    const slides = [...document.querySelectorAll('.slide')];
-    const progress = document.querySelector('.progress');
-    const panel = document.querySelector('.notes-panel');
-    const panelText = panel.querySelector('p');
-    let index = 0;
-    function fitDeck() {
-      const scale = Math.min(innerWidth / 1600, innerHeight / 900);
-      document.documentElement.style.setProperty('--deck-scale', String(scale));
-    }
-    function show(next) {
-      index = Math.max(0, Math.min(slides.length - 1, next));
-      slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
-      progress.style.width = `${((index + 1) / slides.length) * 100}%`;
-      panelText.textContent = slides[index].querySelector('.speaker-note').textContent;
-      history.replaceState(null, '', `#${index + 1}`);
-    }
-    document.querySelector('#prev').addEventListener('click', () => show(index - 1));
-    document.querySelector('#next').addEventListener('click', () => show(index + 1));
-    document.querySelector('#notes').addEventListener('click', () => panel.classList.toggle('visible'));
-    addEventListener('keydown', event => {
-      if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); show(index + 1); }
-      if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); show(index - 1); }
-      if (event.key.toLowerCase() === 'n') panel.classList.toggle('visible');
-      if (event.key === 'Home') show(0);
-      if (event.key === 'End') show(slides.length - 1);
-    });
-    addEventListener('resize', fitDeck);
-    const requested = Number(location.hash.slice(1));
-    fitDeck();
-    show(Number.isFinite(requested) && requested > 0 ? requested - 1 : 0);
+    const slides=[...document.querySelectorAll('.slide')], progress=document.querySelector('.progress'), panel=document.querySelector('.notes-panel'), panelText=panel.querySelector('p'); let index=0;
+    function fitDeck(){ document.documentElement.style.setProperty('--deck-scale',String(Math.min(innerWidth/1600,innerHeight/900))); }
+    function show(next){ index=Math.max(0,Math.min(slides.length-1,next)); slides.forEach((slide,i)=>slide.classList.toggle('active',i===index)); progress.style.width=`${((index+1)/slides.length)*100}%`; panelText.textContent=slides[index].querySelector('.speaker-note').textContent; history.replaceState(null,'',`#${index+1}`); }
+    document.querySelector('#prev').addEventListener('click',()=>show(index-1)); document.querySelector('#next').addEventListener('click',()=>show(index+1)); document.querySelector('#notes').addEventListener('click',()=>panel.classList.toggle('visible'));
+    addEventListener('keydown',event=>{ if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();show(index+1)} if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();show(index-1)} if(event.key.toLowerCase()==='n')panel.classList.toggle('visible'); if(event.key==='Home')show(0); if(event.key==='End')show(slides.length-1); });
+    addEventListener('resize',fitDeck); fitDeck(); const requested=Number(location.hash.slice(1)); show(Number.isFinite(requested)&&requested>0?requested-1:0);
   </script>
 </body>
 </html>
