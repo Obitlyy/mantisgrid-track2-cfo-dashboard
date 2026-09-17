@@ -108,14 +108,14 @@ python3 track-2/scripts/smoke_decision.py --url http://localhost:3000
 make audit
 ```
 
-Final claims must be rebuilt from the intended request and actual team identity, then checked against the running same-origin application:
+The committed release claim is generated from the same two-action request and team
+identity used for this submission. To reproduce or intentionally replace it, then
+check it against the running same-origin application:
 
 ```bash
-make export-claims TEAM='Actual Team Name' REQUEST=out/release-request.json
+make export-claims TEAM='Obitlyy' REQUEST=out/release-request.json
 make validate CLAIMS=claims.json URL=http://localhost:3000
 ```
-
-The actual team name has not been supplied, so final root claims export remains pending. No team name, member roster, or user-supplied project title is inferred here.
 
 ## 9. Limitations
 

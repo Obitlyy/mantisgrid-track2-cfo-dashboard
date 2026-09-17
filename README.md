@@ -5,6 +5,8 @@ This repository contains both official hackathon tracks. The main deliverable is
 - [Track 2 — Cluster efficiency](track-2/) is the implemented deliverable.
 - [Track 1 — Root cause analysis](track-1/) remains available with its original context.
 - [REPORT.md](REPORT.md) states the decision, method, reproducibility details, and limitations.
+- [claims.json](claims.json) is the machine-readable release claim, generated from the
+  same two-action request used in the report.
 - [Hackathon report](hackathon-report.md) and [pitch presentation](hackathon-pitch.html) provide the submission narrative.
 - [Four-minute demo script](docs/demo-script.md) gives the exact presentation path.
 
@@ -72,11 +74,13 @@ make audit
 
 ## Export and validate claims
 
-Final export requires the actual team name. It has not been supplied, so the repository intentionally does not invent one or claim that the final root export is complete.
+The committed release claim is for team **Obitlyy** and uses the two-action request
+described in [REPORT.md](REPORT.md). Re-export it only if the registered team identity
+or decision request changes:
 
 ```bash
 # Use the request saved from the intended release scenario.
-make export-claims TEAM='Actual Team Name' REQUEST=out/release-request.json
+make export-claims TEAM='Obitlyy' REQUEST=out/release-request.json
 make validate CLAIMS=claims.json URL=http://localhost:3000
 ```
 
@@ -84,6 +88,11 @@ If `REQUEST` is omitted, export uses the application's canonical CPU-only defaul
 
 ## AI disclosure
 
-OpenAI Codex and OpenAI GPT-family coding/review agents were used to help analyze the repository, implement and review code and tests, and draft documentation. Deterministic tests, official data checks, live API responses, and browser flows were used to verify claims. Model token counts were not recorded. No model-generated number is treated as source data.
-
-Submission identity remains intentionally incomplete: no team name, member roster, or user-supplied project title was available. See [REPORT.md](REPORT.md) for the full disclosure and remaining release gate.
+OpenAI Codex Desktop and OpenAI GPT-family coding/review agents were used to help
+analyze the repository, implement and review code and tests, debug the release, and
+draft documentation. The agent workflow used the local Superpowers skill framework;
+the optional FastMCP-compatible server is a read-only evidence interface, not an
+autonomous scheduler agent. Deterministic tests, official data checks, live API
+responses, and browser flows were used to verify claims. Model token counts were not
+recorded. No model-generated number is treated as source data; the core arithmetic is
+deterministic and team-reviewed.

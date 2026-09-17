@@ -1,0 +1,57 @@
+{
+  "team": "Obitlyy",
+  "recoverable_gpu_hours": {
+    "low": 0.0,
+    "point": 28292.79881,
+    "high": 56585.597619,
+    "interval_kind": "scenario",
+    "basis": "Deduplicated assigned-cohort scenario; whole jobs follow CPU then idle priority."
+  },
+  "recoverable_usd": {
+    "low": 0.0,
+    "point": 70732.0,
+    "high": 141463.99,
+    "interval_kind": "scenario",
+    "basis": "Reference GPU price scenario; not cash savings."
+  },
+  "cancelled_is_waste": false,
+  "cancelled_rationale": "CANCELLED jobs are not treated as waste; only explicit low-activity candidates enter scenarios.",
+  "cash_savings_claimed": false,
+  "analysis_provenance": {
+    "dataset_id": "d14fde0446cdb405fc44831dbf1ac17d58503ee9d7cdb5f5475d158a75e1d6aa",
+    "evaluation_id": "019d9c44720216ec41af27a2c99ccfae42ae5fc655470d0898d256561cf6b09f",
+    "schema_version": "1.0.0",
+    "analysis_version": "track2-decision-v1",
+    "evaluation_request": {
+      "selected_action_ids": [
+        "cpu_migration",
+        "idle_session_reclaim"
+      ],
+      "pricing": {
+        "usd_per_gpu_hour": 2.5,
+        "usd_per_cpu_core_hour": null
+      },
+      "cpu_migration": {
+        "recoverable_fraction": {
+          "low": 0.0,
+          "point": 0.5,
+          "high": 1.0
+        },
+        "additional_cpu_core_hours_per_gpu_hour": null,
+        "rerun_gpu_hours_per_candidate_gpu_hour": null,
+        "added_elapsed_hours_per_job": null
+      },
+      "idle_session_reclaim": {
+        "recoverable_fraction": {
+          "low": 0.0,
+          "point": 0.25,
+          "high": 0.5
+        },
+        "rerun_gpu_hours_per_candidate_gpu_hour": null,
+        "added_elapsed_hours_per_job": null
+      }
+    },
+    "reference_currency": "USD",
+    "cash_savings_claimed": false
+  }
+}
