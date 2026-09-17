@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GPU Budget Decision | Two-slide pitch</title>
+  <style>
+    :root { --ink:#f5f7f2; --muted:#9ca69d; --green:#b9ff45; --cyan:#4de6cf; --orange:#ffb15a; --line:rgba(255,255,255,.16); --bg:#090d0c; }
+    * { box-sizing:border-box; }
+    html,body { margin:0; width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--ink); }
+    body { display:grid; place-items:center; font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    button { font:inherit; }
+    .deck { position:relative; width:1600px; height:900px; flex:0 0 auto; transform:scale(var(--deck-scale,1)); transform-origin:center; }
+    .slide { display:none; position:absolute; inset:0; width:1600px; height:900px; padding:70px 112px; overflow:hidden; background:radial-gradient(circle at 84% 12%,rgba(77,230,207,.12),transparent 33%),radial-gradient(circle at 6% 96%,rgba(185,255,69,.08),transparent 34%),var(--bg); }
+    .slide.active { display:flex; flex-direction:column; animation:enter .4s ease both; }
+    @keyframes enter { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+    .slide::before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.2; background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px); background-size:44px 44px; }
+    .slide>* { position:relative; z-index:1; }
+    .eyebrow { margin:0 0 16px; color:var(--green); font-size:18px; font-weight:800; letter-spacing:.18em; text-transform:uppercase; }
+    h1,h2,h3,p { margin-top:0; }
+    h1 { max-width:1120px; margin-bottom:26px; font-size:118px; line-height:.92; letter-spacing:-.065em; }
+    h2 { max-width:1240px; margin-bottom:22px; font-size:72px; line-height:.98; letter-spacing:-.05em; }
+    h3 { margin-bottom:8px; font-size:28px; letter-spacing:-.025em; }
+    .lead { max-width:820px; color:#d7ddd7; font-size:29px; line-height:1.35; }
+    .accent { color:var(--green); } .cyan { color:var(--cyan); } .orange { color:var(--orange); }
+    .tag { display:inline-block; padding:8px 13px; border:1px solid var(--line); border-radius:999px; color:#dfe6df; font-size:16px; }
+    .footer { position:absolute; left:112px; right:112px; bottom:28px; display:flex; justify-content:space-between; color:#758079; font-size:13px; letter-spacing:.05em; }
+    .cover { justify-content:center; }
+    .cover .meta { display:flex; gap:12px; margin-top:26px; }
+    .summary-grid { display:grid; grid-template-columns:1.02fr .98fr; gap:82px; align-items:center; flex:1; }
+    .signal { color:var(--green); font-size:210px; font-weight:850; line-height:.8; letter-spacing:-.075em; }
+    .signal-label { max-width:680px; margin-top:30px; font-size:46px; line-height:1.14; letter-spacing:-.035em; }
+    .facts { display:grid; gap:10px; }
+    .fact { padding:13px 0; border-top:1px solid var(--line); }
+    .fact strong { display:block; font-size:40px; line-height:1.05; letter-spacing:-.045em; }
+    .fact span { color:var(--muted); font-size:19px; }
+    .principles { display:grid; grid-template-columns:1.03fr .97fr; gap:72px; align-items:center; flex:1; }
+    .equation { padding:22px 0; border-top:2px solid var(--green); border-bottom:1px solid var(--line); }
+    .equation strong { display:block; color:var(--green); font-size:46px; line-height:1.03; letter-spacing:-.045em; }
+    .equation span { display:block; margin-top:10px; color:#c9d0ca; font-size:19px; line-height:1.35; }
+    .principle-list { display:grid; gap:0; min-width:0; padding-right:48px; }
+    .principle { padding:15px 0 15px 68px; border-bottom:1px solid var(--line); }
+    .principle b { display:block; color:var(--cyan); font-size:26px; }
+    .principle span { display:block; color:var(--muted); font-size:17px; line-height:1.35; overflow-wrap:anywhere; }
+    .product-strip { display:flex; gap:10px; margin-top:14px; color:#d3d9d3; font-size:15px; }
+    .product-strip span { padding:10px 13px; border:1px solid var(--line); }
+    .decision-grid { display:grid; grid-template-columns:1fr 1fr; gap:58px; flex:1; align-items:center; }
+    .action { padding:27px 0; border-top:2px solid var(--line); }
+    .action:first-child { border-color:var(--green); } .action:last-child { border-color:var(--cyan); }
+    .action .number { margin:12px 0 3px; font-size:92px; font-weight:850; line-height:.9; letter-spacing:-.06em; }
+    .action small { color:var(--muted); font-size:16px; }
+    .action p { max-width:580px; color:#c2cbc2; font-size:20px; line-height:1.35; }
+    .result { display:grid; grid-template-columns:1.03fr .97fr; gap:72px; align-items:end; flex:1; }
+    .result strong { display:block; color:var(--green); font-size:164px; line-height:.8; letter-spacing:-.075em; }
+    .result p { max-width:700px; margin-top:25px; font-size:31px; line-height:1.28; }
+    .ranges { padding-left:30px; border-left:1px solid var(--line); }
+    .range { margin-bottom:24px; } .range b { display:block; font-size:49px; letter-spacing:-.045em; } .range span { color:var(--muted); font-size:18px; }
+    .close-line { max-width:1120px; margin-top:20px; font-size:47px; line-height:1.02; letter-spacing:-.045em; }
+    .controls { position:fixed; z-index:20; top:18px; right:18px; display:flex; gap:8px; }
+    .controls button { width:40px; height:40px; border:1px solid var(--line); border-radius:50%; background:rgba(9,13,12,.82); color:var(--ink); cursor:pointer; }
+    .controls button:hover { border-color:var(--green); color:var(--green); }
+    .progress { position:fixed; z-index:20; left:0; bottom:0; height:3px; background:var(--green); transition:width .25s ease; }
+    .notes-panel { display:none; position:fixed; z-index:30; left:4vw; right:4vw; bottom:5vh; max-height:38vh; padding:24px 28px; overflow:auto; border:1px solid var(--line); background:rgba(4,7,6,.96); box-shadow:0 30px 80px rgba(0,0,0,.5); }
+    .notes-panel.visible { display:block; } .notes-panel strong { color:var(--green); } .speaker-note { display:none; }
+    @media print { html,body{height:auto;overflow:visible} body{display:block} .deck{width:13.333in;height:auto;transform:none!important} .slide,.slide.active{display:flex;position:relative;width:13.333in;height:7.5in;break-after:page} .controls,.progress,.notes-panel{display:none!important} }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-label="GPU Budget Decision two-slide pitch">
+    <section class="slide">
+      <p class="eyebrow">GPU Budget Decision · MantisGrid Hackathon 2026</p>
+      <h2>GPU cuts <span class="accent">without guesswork</span></h2>
+      <p class="lead">From a noisy utilization signal to a defensible decision.</p>
+      <div class="summary-grid">
+        <div>
+          <div class="signal">83%</div>
+          <p class="signal-label">of allocated GPU compute did not appear in completed work</p>
+          <p class="lead">A starting signal, not a savings claim.</p>
+        </div>
+        <div class="facts">
+          <div class="fact"><strong>74,849 jobs</strong><span>Four months of real workload telemetry</span></div>
+          <div class="fact"><strong>594,004 GPU-hours</strong><span>Measured physical GPU duration</span></div>
+          <div class="fact"><strong>$1.485M</strong><span>Reference-priced usage at $2.50 per GPU-hour</span></div>
+          <div class="equation"><strong>Candidate capacity × recovery scenario</strong><span>Start at 96,893 physical GPU records. Filter strictly. Cap duration by walltime. Deduplicate whole jobs. Keep modeled recovery separate from measured usage.</span></div>
+          <div class="product-strip"><span>Executive View</span><span>Facility Tour</span><span>Evidence Drawer</span><span>Read-only AI</span></div>
+        </div>
+      </div>
+      <div class="footer"><span>Analysis engine + frontend in one decision path</span><span>01 / 02</span></div>
+      <div class="speaker-note">Imagine you are the CFO. You have been asked to cut GPU spend without slowing research. You need an answer in thirty seconds, but the team implementing it needs proof. Our signal is 83 percent of allocated compute not appearing in completed work, across 74,849 jobs and 594,004 measured GPU-hours. At a reference price of two dollars and fifty cents, that is 1.485 million dollars of usage. But that signal is not a savings claim. The analysis starts at physical GPU grain, applies strict predicates for outcome, utilization, attempts, walltime, and record completeness, caps duration by job walltime, and deduplicates whole jobs. Recovery is modeled as candidate capacity multiplied by an explicit scenario fraction. On the frontend, the same decision is available in an Executive View, a Facility Tour, an Evidence Drawer, and a read-only AI layer.</div>
+    </section>
+
+    <section class="slide">
+      <p class="eyebrow">Evidence-backed action</p>
+      <h2>Two pilots. One allocation. A measurable next step.</h2>
+      <div class="decision-grid">
+        <article class="action"><span class="tag">Platform engineering</span><h3>Move zero-compute completed jobs to CPU</h3><div class="number accent">463</div><small>eligible jobs · 11,986 capped candidate GPU-hours</small><p>Output correctness and CPU queue capacity gate the pilot. Stop and restore the original request if the envelope breaks.</p></article>
+        <article class="action"><span class="tag">Research platform operations</span><h3>Reclaim long, low-activity sessions</h3><div class="number cyan">1,794</div><small>eligible jobs · 92,158 capped candidate GPU-hours</small><p>Notify first, allow a grace period, and protect valid work. Idle time is modeled conservatively because no idle time series exists.</p></article>
+      </div>
+      <div class="result"><div><strong>2,148</strong><p>unique jobs in the deduplicated portfolio</p></div><div class="ranges"><div class="range"><b>0–56,586 GPU-h</b><span>Scenario recovery range · 28,293 point</span></div><div class="range"><b>$0–$141,464</b><span>Reference-price equivalent · $70,732 point</span></div><div class="range"><b class="orange">9.53% max</b><span>Below the 20% comparison, so we do not overclaim</span></div></div></div>
+      <div class="footer"><span>Start reversible · Inspect the evidence · Scale after outcome</span><span>02 / 02</span></div>
+      <div class="speaker-note">The result is two bounded pilots. Platform Engineering gets 463 completed, zero-compute jobs that can be checked for CPU migration. Research Platform Operations gets 1,794 long, low-activity sessions for a notified, grace-period reclaim. The actions overlap on 109 jobs, so the portfolio assigns each job once. That yields 2,148 unique jobs, with a scenario range of zero to 56,586 GPU-hours and a reference-price equivalent of zero to 141,464 dollars. Even the high case is only 9.53 percent of the historical sample, below the 20 percent comparison. We do not overclaim. We start reversible, inspect the evidence, and scale only after the pilot measures the outcome.</div>
+    </section>
+  </main>
+  <div class="controls" aria-label="Slide controls"><button id="prev" aria-label="Previous slide">←</button><button id="notes" aria-label="Toggle speaker notes">N</button><button id="next" aria-label="Next slide">→</button></div>
+  <div class="progress" aria-hidden="true"></div>
+  <aside class="notes-panel" aria-live="polite"><strong>Speaker notes</strong><p></p></aside>
+  <script>
+    const slides=[...document.querySelectorAll('.slide')], progress=document.querySelector('.progress'), panel=document.querySelector('.notes-panel'), panelText=panel.querySelector('p'); let index=0;
+    function fitDeck(){ document.documentElement.style.setProperty('--deck-scale',String(Math.min(innerWidth/1600,innerHeight/900))); }
+    function show(next){ index=Math.max(0,Math.min(slides.length-1,next)); slides.forEach((slide,i)=>slide.classList.toggle('active',i===index)); progress.style.width=`${((index+1)/slides.length)*100}%`; panelText.textContent=slides[index].querySelector('.speaker-note').textContent; history.replaceState(null,'',`#${index+1}`); }
+    document.querySelector('#prev').addEventListener('click',()=>show(index-1)); document.querySelector('#next').addEventListener('click',()=>show(index+1)); document.querySelector('#notes').addEventListener('click',()=>panel.classList.toggle('visible'));
+    addEventListener('keydown',event=>{ if(['ArrowRight','PageDown',' '].includes(event.key)){event.preventDefault();show(index+1)} if(['ArrowLeft','PageUp'].includes(event.key)){event.preventDefault();show(index-1)} if(event.key.toLowerCase()==='n')panel.classList.toggle('visible'); if(event.key==='Home')show(0); if(event.key==='End')show(slides.length-1); });
+    addEventListener('resize',fitDeck); fitDeck(); const requested=Number(location.hash.slice(1)); show(Number.isFinite(requested)&&requested>0?requested-1:0);
+  </script>
+</body>
+</html>

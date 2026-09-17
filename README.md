@@ -1,15 +1,16 @@
 # MantisGrid Hackathon 2026 — Track 2 release
 
-This repository contains both official hackathon tracks. The main deliverable in this checkout is the English Track 2 application: a local, evidence-linked view of historical GPU usage, two operational pilot candidates, their scenario ranges, and the cost of being wrong.
+This repository contains both official hackathon tracks. The main deliverable is the English Track 2 application: a local, evidence-linked view of historical GPU usage, two operational pilot candidates, their scenario ranges, and the cost of being wrong.
 
 - [Track 2 — Cluster efficiency](track-2/) is the implemented deliverable.
 - [Track 1 — Root cause analysis](track-1/) remains available with its original context.
 - [REPORT.md](REPORT.md) states the decision, method, reproducibility details, and limitations.
+- [Hackathon report](hackathon-report.md) and [pitch presentation](hackathon-pitch.html) provide the submission narrative.
 - [Four-minute demo script](docs/demo-script.md) gives the exact presentation path.
 
-The dashboard is organized around the three required questions:
+The dashboard answers three questions:
 
-1. **Where the money goes** — historical measured GPU-hours and reference-priced cost by every terminal outcome.
+1. **Where the money goes** — historical measured GPU-hours and reference-priced cost by terminal outcome.
 2. **Where to cut** — ranked CPU-migration and idle-session-reclaim pilots with owners, filters, scenario capacity, and row-level evidence.
 3. **If this decision is wrong** — rerun, CPU, and delay inputs remain visibly unknown until supplied; `cash_savings_usd` remains null because billing realization was not measured.
 
@@ -19,7 +20,7 @@ These are historical capacity scenarios, not a quarterly forecast, calibrated pr
 
 - Docker with Compose
 - GNU Make
-- Node.js/npm for running dashboard tests outside Docker
+- Node.js/npm for dashboard tests outside Docker
 - `uv` for local Python test and CLI targets
 
 The default application uses deterministic analysis over the downloaded dataset. Its decision cards do **not** require an LLM, a local model, or an LLM API key. An optional read-only chat agent uses DeepSeek tool calling to explain the applied scenario through the existing Decision API and official MantisGrid evidence interfaces; set `DEEPSEEK_API_KEY` in an ignored `.env` file to enable it. The MCP audit also runs deterministically against the official local MCP server.
